@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:primevedio/ui/main_page.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
@@ -11,13 +12,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Prime Video',
-      theme: ThemeData(
-        primaryColor: UIData.primaryColor,
-        primarySwatch: Colors.blueGrey,
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      builder: () => MaterialApp(
+        title: 'Prime Video',
+        theme: ThemeData(
+            primaryColor: UIData.primaryColor,
+            primarySwatch: Colors.blue,
+            splashColor: const Color.fromRGBO(0, 0, 0, 0)),
+        home: const MainPage(),
       ),
-      home: const MainPage(),
     );
   }
 }

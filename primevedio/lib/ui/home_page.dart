@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,9 +16,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: UIData.primaryColor,
-        title: const Text(
-          'prime video',
-          style: TextStyle(fontSize: 25.41),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CommonText.mainTitle('Prime '),
+            CommonText.mainTitle('Video', color: Colors.white)
+          ],
         ),
       ),
       body: const CustomTabBarView(),
@@ -53,34 +58,54 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
     return Column(
       children: <Widget>[
         _buildTabBar(),
-        SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 200,
-            child: _buildTabBarView())
+        Expanded(
+          child: SingleChildScrollView(
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: _buildTabBarView()),
+          ),
+        )
       ],
     );
   }
 
-  Widget _buildTabBar() => TabBar(
-        onTap: (tab) => print(tab),
-        labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        unselectedLabelStyle: TextStyle(fontSize: 16),
-        isScrollable: true,
-        controller: _tabController,
-        labelColor: Colors.blue,
-        indicatorWeight: 3,
-        indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
-        unselectedLabelColor: Colors.grey,
-        tabs: tabs.map((e) => Tab(text: e)).toList(),
+  Widget _buildTabBar() => Container(
+        color: UIData.primaryColor,
+        child: TabBar(
+          onTap: (tab) => print(tab),
+          labelStyle: TextStyle(
+              fontSize: UIData.fontSize1906, fontWeight: FontWeight.bold),
+          unselectedLabelStyle: const TextStyle(fontSize: 19.06),
+          isScrollable: true,
+          controller: _tabController,
+          labelColor: Colors.blue,
+          indicatorWeight: 3,
+          indicatorPadding:
+              EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith24),
+          unselectedLabelColor: Colors.white,
+          tabs: tabs.map((e) => Tab(text: e)).toList(),
+        ),
       );
 
-  Widget _buildTabBarView() => TabBarView(
-      controller: _tabController,
-      children: tabs
-          .map((e) => Center(
-                  child: Text(
-                e,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              )))
-          .toList());
+  Widget _buildTabBarView() => Container(
+        color: UIData.primaryColor,
+        child: Column(
+          children: [
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: tabs
+                    .map((e) => Center(
+                            child: Text(
+                          e,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 20),
+                        )))
+                    .toList(),
+              ),
+            ),
+          ],
+        ),
+      );
 }
