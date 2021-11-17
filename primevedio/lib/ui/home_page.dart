@@ -59,12 +59,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
       children: <Widget>[
         _buildTabBar(),
         Expanded(
-          child: SingleChildScrollView(
-            child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: _buildTabBarView()),
-          ),
+          child: _buildTabBarView(),
         )
       ],
     );
@@ -90,22 +85,27 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
 
   Widget _buildTabBarView() => Container(
         color: UIData.primaryColor,
-        child: Column(
-          children: [
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: tabs
-                    .map((e) => Center(
-                            child: Text(
-                          e,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20),
-                        )))
-                    .toList(),
-              ),
-            ),
-          ],
+        child: TabBarView(
+          controller: _tabController,
+          children: tabs
+              .map((e) => ListView(
+                    children: [
+                      const Text(
+                        '抽一个组件出来，\n这里用pageView',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: UIData.spaceSizeWith16,
+                            vertical: UIData.spaceSizeWith16),
+                        child: Row(children: [
+                          CommonText.normalText('最新发布',
+                              textAlign: TextAlign.left),
+                        ]),
+                      )
+                    ],
+                  ))
+              .toList(),
         ),
       );
 }
