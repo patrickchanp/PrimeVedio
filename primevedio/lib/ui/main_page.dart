@@ -21,7 +21,6 @@ class _MainPageState extends State<MainPage> {
       icon: Icon(
         MyIcons.homeIcon,
         size: 30,
-        color: UIData.unselectColor,
       ),
       label: '',
     ),
@@ -36,13 +35,13 @@ class _MainPageState extends State<MainPage> {
       icon: Icon(
         MyIcons.meIcon,
         size: 30,
-        color: UIData.unselectColor,
       ),
       label: '',
     ),
   ];
 
   late int _currentIndex;
+  late bool isSelected = false;
   final pages = const [HomePage(), SearchPage(), MePage()];
 
   @override
@@ -61,6 +60,8 @@ class _MainPageState extends State<MainPage> {
           items: bottomNavItems,
           currentIndex: _currentIndex,
           type: BottomNavigationBarType.fixed,
+          selectedItemColor: UIData.primarySwatch,
+          unselectedItemColor: UIData.unselectColor,
           onTap: (index) {
             changePage(index);
           },
@@ -70,11 +71,13 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  void changePage(int index, {bool isSelected = false}) {
+  void changePage(int index) {
     if (index != _currentIndex) {
       setState(() {
         _currentIndex = index;
       });
+      isSelected = false;
+    } else {
       isSelected = true;
     }
   }

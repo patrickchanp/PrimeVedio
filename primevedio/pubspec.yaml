@@ -38,6 +38,7 @@ dependencies:
   flutter_swiper: ^1.1.6
   dio: ^4.0.3
   scoped_model: ^1.1.0
+  json_serializable: ^6.0.1
 
 dev_dependencies:
   flutter_test:
