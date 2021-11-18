@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:primevedio/common/indicator.dart';
+import 'package:primevedio/ui/tab_info.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
@@ -16,12 +18,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: UIData.primaryColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CommonText.mainTitle('Prime '),
-            CommonText.mainTitle('Video', color: Colors.white)
-          ],
+        title: Padding(
+          padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CommonText.mainTitle('Prime '),
+              CommonText.mainTitle('Video', color: Colors.white)
+            ],
+          ),
         ),
       ),
       body: const CustomTabBarView(),
@@ -67,19 +72,22 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
 
   Widget _buildTabBar() => Container(
         color: UIData.primaryColor,
-        child: TabBar(
-          onTap: (tab) => print(tab),
-          labelStyle: TextStyle(
-              fontSize: UIData.fontSize1906, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: const TextStyle(fontSize: 19.06),
-          isScrollable: true,
-          controller: _tabController,
-          labelColor: Colors.blue,
-          indicatorWeight: 3,
-          indicatorPadding:
-              EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith24),
-          unselectedLabelColor: Colors.white,
-          tabs: tabs.map((e) => Tab(text: e)).toList(),
+        height: UIData.spaceSizeHeight40,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith24),
+          child: TabBar(
+            padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith24),
+            onTap: (tab) => print(tab),
+            labelStyle: TextStyle(
+              color: Colors.black,
+              fontSize: UIData.fontSize1906,
+            ),
+            isScrollable: true,
+            controller: _tabController,
+            indicator: StubTabIndicator(color: UIData.primarySwatch),
+            unselectedLabelColor: Colors.white,
+            tabs: tabs.map((e) => Tab(text: e)).toList(),
+          ),
         ),
       );
 
@@ -87,25 +95,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
         color: UIData.primaryColor,
         child: TabBarView(
           controller: _tabController,
-          children: tabs
-              .map((e) => ListView(
-                    children: [
-                      const Text(
-                        '抽一个组件出来，\n这里用pageView',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: UIData.spaceSizeWith16,
-                            vertical: UIData.spaceSizeWith16),
-                        child: Row(children: [
-                          CommonText.normalText('最新发布',
-                              textAlign: TextAlign.left),
-                        ]),
-                      )
-                    ],
-                  ))
-              .toList(),
+          children: tabs.map((e) => const TabInfo()).toList(),
         ),
       );
 }

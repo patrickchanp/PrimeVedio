@@ -22,5 +22,5 @@ class HttpOptions {
   static bool isTrialVersion = false;
   static int connectTimeout = 30000;
   static int receiveTimeout = 30000;
-  static String baseUrl = "https://dy.51isu.com:11801/api.php/provide/vod/";
+  static String baseUrl = "https://dy.51isu.com:11801/api.php/provide/vod";
 }

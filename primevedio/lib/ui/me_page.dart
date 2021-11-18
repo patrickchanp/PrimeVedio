@@ -18,11 +18,9 @@ class _MePageState extends State<MePage> {
     return Column(
       children: [
         const Text('test'),
-        RaisedButton(onPressed: () {
-          // HttpUtil2.test();
-          // getRequestData1();
-          getRequestData2();
-        })
+        RaisedButton(onPressed: () => HttpUtil2.test()
+            // getRequestData1();
+            )
       ],
     );
   }

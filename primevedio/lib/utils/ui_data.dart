@@ -15,6 +15,17 @@ class UIData {
   static double fontSize2541 = ScreenUtil().setSp(25.41);
   //宽度高度
   static double spaceSizeHeight10375 = ScreenUtil().setHeight(103.75);
+  static double spaceSizeHeight17256 = ScreenUtil().setHeight(172.56);
+  static double spaceSizeHeight1771 = ScreenUtil().setHeight(17.71);
+  static double spaceSizeHeight202 = ScreenUtil().setHeight(202);
+  static double spaceSizeHeight2244 = ScreenUtil().setHeight(22.44);
+  static double spaceSizeHeight30 = ScreenUtil().setHeight(30);
+  static double spaceSizeHeight40 = ScreenUtil().setHeight(40);
+  static double spaceSizeWith6622 = ScreenUtil().setWidth(66.22);
   static double spaceSizeWith24 = ScreenUtil().setWidth(24);
   static double spaceSizeWith16 = ScreenUtil().setWidth(16);
+  static double spaceSizeWith100 = ScreenUtil().setWidth(100);
+  static double spaceSizeWith10973 = ScreenUtil().setWidth(109.73);
+  static double spaceSizeWith159 = ScreenUtil().setWidth(159);
+  static double spaceSizeWith30678 = ScreenUtil().setWidth(306.78);
 }

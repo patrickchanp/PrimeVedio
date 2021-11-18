@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 690),
+      designSize: const Size(397, 859.64),
       builder: () => MaterialApp(
         title: 'Prime Video',
         theme: ThemeData(
