@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:primevedio/http/http_util.dart';
-import 'package:primevedio/http/http_util2.dart';
 import 'package:primevedio/utils/log_util.dart';
 
 class MePage extends StatefulWidget {
@@ -18,7 +17,7 @@ class _MePageState extends State<MePage> {
     return Column(
       children: [
         const Text('test'),
-        RaisedButton(onPressed: () => HttpUtil2.test()
+        RaisedButton(onPressed: () {}
             // getRequestData1();
             )
       ],

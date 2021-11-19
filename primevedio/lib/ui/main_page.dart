@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:primevedio/ui/search_page.dart';
+import 'package:primevedio/ui/searchpage/search_page.dart';
 import 'package:primevedio/utils/my_icons.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
-import 'home_page.dart';
-import 'me_page.dart';
+import 'homepage/home_page.dart';
+import 'mepage/me_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

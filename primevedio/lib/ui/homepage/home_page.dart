@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:primevedio/common/indicator.dart';
-import 'package:primevedio/ui/tab_info.dart';
+import 'package:primevedio/http/http_options.dart';
+import 'package:primevedio/http/http_util.dart';
+import 'package:primevedio/model/tab_bar_list.dart';
+import 'package:primevedio/ui/homepage/tab_info.dart';
 import 'package:primevedio/utils/common_text.dart';
+import 'package:primevedio/utils/log_util.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,19 +45,25 @@ class CustomTabBarView extends StatefulWidget {
 }
 
 class _CustomTabBarViewState extends State<CustomTabBarView>
-    with SingleTickerProviderStateMixin {
-  final tabs = ['电影', '连续剧', '综艺', '动漫', '资讯', '动作片'];
-  late TabController _tabController;
+    with TickerProviderStateMixin {
+  // final tabs = ['电影', '连续剧', '综艺', '动漫', '资讯', '动作片'];
+  late TabController _tabController =
+      TabController(vsync: this, length: getTabBar!.length);
+
+  List<TabBarType>? getTabBar = [];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: tabs.length);
+    _tabController;
+    _getTabBarList();
+    LogUtils.printLog('dfasdf');
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    // _getTabBarList();
+    TabController(length: getTabBar!.length, vsync: this).dispose();
     super.dispose();
   }
 
@@ -86,7 +95,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             controller: _tabController,
             indicator: StubTabIndicator(color: UIData.primarySwatch),
             unselectedLabelColor: Colors.white,
-            tabs: tabs.map((e) => Tab(text: e)).toList(),
+            tabs: getTabBar!.map((e) => Tab(text: e.typeName)).toList(),
           ),
         ),
       );
@@ -95,7 +104,17 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
         color: UIData.primaryColor,
         child: TabBarView(
           controller: _tabController,
-          children: tabs.map((e) => const TabInfo()).toList(),
+          children: getTabBar!.map((e) => const TabInfo()).toList(),
         ),
       );
+
+  _getTabBarList() {
+    HttpUtil.request(HttpOptions.baseUrl, HttpUtil.GET).then((value) {
+      TabBarListModel model = TabBarListModel.fromJson(value);
+      setState(() {
+        getTabBar = model.tabBarList;
+      });
+      _tabController = TabController(vsync: this, length: getTabBar!.length);
+    });
+  }
 }

@@ -65,6 +65,7 @@ class _ViewPageState extends State<ViewPage> {
 
   _buildPageItem(int index) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(ScreenUtil().radius(11.65)),
         image: DecorationImage(
