@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:primevedio/ui/homepage/viewgrid.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
@@ -25,7 +26,7 @@ class _TabInfoState extends State<TabInfo> {
           padding: EdgeInsets.symmetric(vertical: UIData.spaceSizeWith16),
           child: CommonText.normalText('最新发布'),
         ),
-        _gridView(),
+        // const ViewGrid(),
       ],
     );
   }
@@ -75,39 +76,40 @@ class _ViewPageState extends State<ViewPage> {
   }
 }
 
-Widget _gridView() {
-  return GridView.count(
-    shrinkWrap: true,
-    primary: false,
-    crossAxisCount: 2,
-    childAspectRatio: 0.7,
-    mainAxisSpacing: 20,
-    crossAxisSpacing: 16,
-    children: [
-      _buildReleaseItem(Colors.red),
-      _buildReleaseItem(Colors.blue),
-      _buildReleaseItem(Colors.green),
-      _buildReleaseItem(Colors.yellow),
-      _buildReleaseItem(Colors.yellow),
-    ],
-  );
-}
+// _buildGridItem(int index) {
+//   return Column(
+//     mainAxisAlignment: MainAxisAlignment.start,
+//     children: [
+//       Container(
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(ScreenUtil().radius(11.65)),
+//         ),
+//         height: UIData.spaceSizeHeight202,
+//       ),
+//       Container(
+//         alignment: Alignment.centerLeft,
+//         padding: const EdgeInsets.only(top: 12.0),
+//         child: CommonText.normalText("text"),
+//       )
+//     ],
+//   );
+// }
 
-Widget _buildReleaseItem(color) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(ScreenUtil().radius(11.65)),
-            color: color),
-        height: UIData.spaceSizeHeight202,
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.only(top: 12.0),
-        child: CommonText.normalText("text"),
-      )
-    ],
-  );
-}
+// Widget _buildReleaseItem(color) {
+//   return Column(
+//     mainAxisAlignment: MainAxisAlignment.start,
+//     children: [
+//       Container(
+//         decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(ScreenUtil().radius(11.65)),
+//             color: color),
+//         height: UIData.spaceSizeHeight202,
+//       ),
+//       Container(
+//         alignment: Alignment.centerLeft,
+//         padding: const EdgeInsets.only(top: 12.0),
+//         child: CommonText.normalText("text"),
+//       )
+//     ],
+//   );
+// }
