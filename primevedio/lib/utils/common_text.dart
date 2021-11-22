@@ -33,4 +33,20 @@ class CommonText {
       overflow: overflow,
     );
   }
+
+  //标题文本
+  static Widget titleText(text,
+      {textAlign = TextAlign.left,
+      overflow = TextOverflow.ellipsis,
+      color = Colors.white}) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontSize: UIData.fontSize16,
+          fontWeight: FontWeight.normal,
+          color: color),
+      textAlign: textAlign,
+      overflow: overflow,
+    );
+  }
 }

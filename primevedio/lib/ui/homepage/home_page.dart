@@ -45,15 +45,15 @@ class CustomTabBarView extends StatefulWidget {
 
 class _CustomTabBarViewState extends State<CustomTabBarView>
     with TickerProviderStateMixin {
-  List<TabBarType>? getTabBar = [];
+  List<TabBarType>? getVideoType = [];
 
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: getTabBar!.length, vsync: this);
-    _getTabBarList();
+    _tabController = TabController(length: getVideoType!.length, vsync: this);
+    _getVideoTypeList();
   }
 
   @override
@@ -89,7 +89,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             controller: _tabController,
             indicator: StubTabIndicator(color: UIData.primarySwatch),
             unselectedLabelColor: Colors.white,
-            tabs: getTabBar!.map((e) => Tab(text: e.typeName)).toList(),
+            tabs: getVideoType!.map((e) => Tab(text: e.typeName)).toList(),
           ),
         ),
       );
@@ -98,7 +98,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
         color: UIData.primaryColor,
         child: TabBarView(
           controller: _tabController,
-          children: getTabBar!
+          children: getVideoType!
               .map((e) => TabInfo(
                     typeId: e.typeId,
                   ))
@@ -106,19 +106,16 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
         ),
       );
 
-  _getTabBarList() {
-    Map<String, Object> params = {
-      'ac': 'detail',
-    };
+  _getVideoTypeList() {
     HttpUtil.request(
       HttpOptions.baseUrl,
       HttpUtil.GET,
     ).then((value) {
       TabBarListModel model = TabBarListModel.fromJson(value);
       setState(() {
-        getTabBar = model.tabBarList;
+        getVideoType = model.tabBarList;
       });
-      _tabController = TabController(vsync: this, length: getTabBar!.length);
+      _tabController = TabController(vsync: this, length: getVideoType!.length);
     });
   }
 }
