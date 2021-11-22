@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'page_view_list.dart';
+part of 'swiper_list.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

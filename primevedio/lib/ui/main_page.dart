@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:primevedio/ui/searchpage/search_page.dart';
 import 'package:primevedio/utils/my_icons.dart';
 import 'package:primevedio/utils/ui_data.dart';
@@ -41,7 +40,6 @@ class _MainPageState extends State<MainPage> {
   ];
 
   late int _currentIndex;
-  late bool isSelected = false;
   final pages = const [HomePage(), SearchPage(), MePage()];
 
   @override
@@ -54,7 +52,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: SizedBox(
-        height: UIData.spaceSizeHeight10375,
+        height: UIData.spaceSizeHeight104,
         child: BottomNavigationBar(
           backgroundColor: UIData.bottomBgColor,
           items: bottomNavItems,
@@ -76,9 +74,6 @@ class _MainPageState extends State<MainPage> {
       setState(() {
         _currentIndex = index;
       });
-      isSelected = false;
-    } else {
-      isSelected = true;
     }
   }
 }

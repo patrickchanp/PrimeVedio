@@ -10,7 +10,7 @@ class CommonText {
     return Text(
       text,
       style: TextStyle(
-          fontSize: UIData.fontSize2541,
+          fontSize: UIData.fontSize26,
           fontWeight: FontWeight.normal,
           color: color),
       textAlign: textAlign,
@@ -26,7 +26,7 @@ class CommonText {
     return Text(
       text,
       style: TextStyle(
-          fontSize: UIData.fontSize1906,
+          fontSize: UIData.fontSize20,
           fontWeight: FontWeight.normal,
           color: color),
       textAlign: textAlign,

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:primevedio/common/indicator.dart';
 import 'package:primevedio/http/http_options.dart';
 import 'package:primevedio/http/http_util.dart';
-import 'package:primevedio/model/tab_bar_list.dart';
+import 'package:primevedio/model/video_type_list.dart';
 import 'package:primevedio/ui/homepage/tab_info.dart';
 import 'package:primevedio/utils/common_text.dart';
-import 'package:primevedio/utils/log_util.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,24 +45,20 @@ class CustomTabBarView extends StatefulWidget {
 
 class _CustomTabBarViewState extends State<CustomTabBarView>
     with TickerProviderStateMixin {
-  // final tabs = ['电影', '连续剧', '综艺', '动漫', '资讯', '动作片'];
-  late TabController _tabController =
-      TabController(vsync: this, length: getTabBar!.length);
-
   List<TabBarType>? getTabBar = [];
+
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController;
+    _tabController = TabController(length: getTabBar!.length, vsync: this);
     _getTabBarList();
-    LogUtils.printLog('dfasdf');
   }
 
   @override
   void dispose() {
-    // _getTabBarList();
-    TabController(length: getTabBar!.length, vsync: this).dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -86,10 +81,9 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
           padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith24),
           child: TabBar(
             padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith24),
-            onTap: (tab) => print(tab),
             labelStyle: TextStyle(
               color: Colors.black,
-              fontSize: UIData.fontSize1906,
+              fontSize: UIData.fontSize20,
             ),
             isScrollable: true,
             controller: _tabController,
@@ -104,12 +98,22 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
         color: UIData.primaryColor,
         child: TabBarView(
           controller: _tabController,
-          children: getTabBar!.map((e) => const TabInfo()).toList(),
+          children: getTabBar!
+              .map((e) => TabInfo(
+                    typeId: e.typeId,
+                  ))
+              .toList(),
         ),
       );
 
   _getTabBarList() {
-    HttpUtil.request(HttpOptions.baseUrl, HttpUtil.GET).then((value) {
+    Map<String, Object> params = {
+      'ac': 'detail',
+    };
+    HttpUtil.request(
+      HttpOptions.baseUrl,
+      HttpUtil.GET,
+    ).then((value) {
       TabBarListModel model = TabBarListModel.fromJson(value);
       setState(() {
         getTabBar = model.tabBarList;

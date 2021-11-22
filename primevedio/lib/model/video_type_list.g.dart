@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tab_bar_list.dart';
+part of 'video_type_list.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

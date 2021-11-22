@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'page_view_list.g.dart';
+part 'swiper_list.g.dart';
 
 @JsonSerializable()
 class PageViewListModel extends Object {

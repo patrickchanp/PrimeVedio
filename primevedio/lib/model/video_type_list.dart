@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'tab_bar_list.g.dart';
+part 'video_type_list.g.dart';
 
 @JsonSerializable()
 class TabBarListModel extends Object {

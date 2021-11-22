@@ -11,21 +11,24 @@ class UIData {
   static const primarySwatch = Color(0xFF00B9E7);
 
   //字号
-  static double fontSize1906 = ScreenUtil().setSp(19.06);
-  static double fontSize2541 = ScreenUtil().setSp(25.41);
+  static double fontSize20 = ScreenUtil().setSp(20);
+  static double fontSize26 = ScreenUtil().setSp(26);
   //宽度高度
-  static double spaceSizeHeight10375 = ScreenUtil().setHeight(103.75);
-  static double spaceSizeHeight17256 = ScreenUtil().setHeight(172.56);
-  static double spaceSizeHeight1771 = ScreenUtil().setHeight(17.71);
+  static double spaceSizeHeight228 = ScreenUtil().setHeight(228);
   static double spaceSizeHeight202 = ScreenUtil().setHeight(202);
-  static double spaceSizeHeight2244 = ScreenUtil().setHeight(22.44);
+  static double spaceSizeHeight104 = ScreenUtil().setHeight(104);
+  static double spaceSizeHeight176 = ScreenUtil().setHeight(176);
+  static double spaceSizeHeight18 = ScreenUtil().setHeight(18);
+  static double spaceSizeHeight22 = ScreenUtil().setHeight(22);
   static double spaceSizeHeight30 = ScreenUtil().setHeight(30);
   static double spaceSizeHeight40 = ScreenUtil().setHeight(40);
-  static double spaceSizeWith6622 = ScreenUtil().setWidth(66.22);
+  static double spaceSizeHeight54 = ScreenUtil().setHeight(54);
+  static double spaceSizeWith66 = ScreenUtil().setWidth(66);
   static double spaceSizeWith24 = ScreenUtil().setWidth(24);
+  static double spaceSizeWith26 = ScreenUtil().setWidth(26);
   static double spaceSizeWith16 = ScreenUtil().setWidth(16);
   static double spaceSizeWith100 = ScreenUtil().setWidth(100);
-  static double spaceSizeWith10973 = ScreenUtil().setWidth(109.73);
+  static double spaceSizeWith110 = ScreenUtil().setWidth(110);
   static double spaceSizeWith159 = ScreenUtil().setWidth(159);
-  static double spaceSizeWith30678 = ScreenUtil().setWidth(306.78);
+  static double spaceSizeWith306 = ScreenUtil().setWidth(306);
 }
