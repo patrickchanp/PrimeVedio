@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:primevedio/common/indicator.dart';
+import 'package:primevedio/ui/play_page/video_detail.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
 class PlayPage extends StatefulWidget {
-  const PlayPage({Key? key}) : super(key: key);
+  final int ids;
+  const PlayPage({Key? key, required this.ids}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PlayPageState();
@@ -15,20 +17,21 @@ class _PlayPageState extends State<PlayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //修改返回的icon
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_left),
-        //   onPressed: () => {Navigator.of(context).pop('刷新')},
-        // ),
+        // 修改返回的icon
+        leading: IconButton(
+          icon: const Icon(Icons.android_rounded),
+          onPressed: () => {Navigator.of(context).pop('刷新')},
+        ),
         backgroundColor: UIData.primaryColor,
       ),
-      body: const PlayVideoContent(),
+      body: PlayVideoContent(ids: widget.ids),
     );
   }
 }
 
 class PlayVideoContent extends StatefulWidget {
-  const PlayVideoContent({Key? key}) : super(key: key);
+  final int ids;
+  const PlayVideoContent({Key? key, required this.ids}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PlayVideoContentState();
@@ -42,15 +45,16 @@ class _PlayVideoContentState extends State<PlayVideoContent> {
         height: UIData.spaceSizeHeight228,
         color: Colors.red,
       ),
-      const Expanded(
-        child: DetailContent(),
+      Expanded(
+        child: DetailContent(ids: widget.ids),
       )
     ]);
   }
 }
 
 class DetailContent extends StatefulWidget {
-  const DetailContent({Key? key}) : super(key: key);
+  final int ids;
+  const DetailContent({Key? key, required this.ids}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DetailContentState();
@@ -99,7 +103,7 @@ class _DetailContentState extends State<DetailContent>
         Expanded(
             child: TabBarView(
           controller: _tabController,
-          children: const [Text('test'), Text('test')],
+          children: [VideoDetail(ids: widget.ids), const Text('test')],
         ))
       ],
     );

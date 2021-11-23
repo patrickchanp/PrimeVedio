@@ -18,7 +18,6 @@ class GridViewPage extends StatefulWidget {
 }
 
 class _GridViewPageState extends State<GridViewPage> {
-  var imgList = [];
   List<PageList>? getRecentList = [];
 
   _getRecentRelease() async {
@@ -31,7 +30,6 @@ class _GridViewPageState extends State<GridViewPage> {
       PageViewListModel model = PageViewListModel.fromJson(value);
       setState(() {
         getRecentList = model.list;
-        imgList = getRecentList!.map((e) => e.vodPic).toList();
       });
     });
   }
@@ -58,7 +56,7 @@ class _GridViewPageState extends State<GridViewPage> {
         mainAxisSpacing: UIData.spaceSizeHeight22,
         crossAxisSpacing: UIData.spaceSizeWith24,
       ),
-      itemCount: imgList.length,
+      itemCount: getRecentList!.length,
       itemBuilder: (context, int index) => _buildGridItem(index),
     );
   }
@@ -72,8 +70,9 @@ class _GridViewPageState extends State<GridViewPage> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(ScreenUtil().radius(12)),
               image: DecorationImage(
-                  image: CachedNetworkImageProvider(imgList[index]),
-                  fit: BoxFit.fill),
+                  image:
+                      CachedNetworkImageProvider(getRecentList![index].vodPic),
+                  fit: BoxFit.cover),
             ),
             height: UIData.spaceSizeHeight202,
           ),
@@ -86,7 +85,7 @@ class _GridViewPageState extends State<GridViewPage> {
       ),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const PlayPage();
+          return PlayPage(ids: getRecentList![index].vodId);
         }));
       },
     );

@@ -10,4 +10,6 @@ class MyIcons {
       IconData(0xe688, fontFamily: 'custom', matchTextDirection: true);
   static const IconData meIcon =
       IconData(0xe61d, fontFamily: 'custom', matchTextDirection: true);
+  static const IconData sortIcon =
+      IconData(0xe610, fontFamily: 'custom', matchTextDirection: true);
 }
