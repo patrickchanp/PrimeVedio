@@ -29,6 +29,7 @@ class UIData {
   static double spaceSizeHeight54 = ScreenUtil().setHeight(54);
   static double spaceSizeWith66 = ScreenUtil().setWidth(66);
   static double spaceSizeWith4 = ScreenUtil().setWidth(4);
+  static double spaceSizeWith10 = ScreenUtil().setWidth(10);
   static double spaceSizeWith24 = ScreenUtil().setWidth(24);
   static double spaceSizeWith26 = ScreenUtil().setWidth(26);
   static double spaceSizeWith16 = ScreenUtil().setWidth(16);

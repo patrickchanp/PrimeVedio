@@ -8,14 +8,14 @@ import 'package:primevedio/utils/log_util.dart';
 import 'package:primevedio/utils/my_icons.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
-final key = GlobalKey<_VideoDetailState>();
-
 class VideoDetail extends StatefulWidget {
   final int ids;
+  final ValueChanged<int> onChange;
 
   const VideoDetail({
     Key? key,
     required this.ids,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -24,10 +24,8 @@ class VideoDetail extends StatefulWidget {
 
 class _VideoDetailState extends State<VideoDetail> {
   VideoDetailContent? getVideoDetail;
-  List? episode;
+  List episode = [];
   late int _currentIndex;
-
-  int get currentIndex => _currentIndex;
 
   _getVideoDetail() async {
     Map<String, Object> params = {
@@ -45,7 +43,7 @@ class _VideoDetailState extends State<VideoDetail> {
             episode = vodUrl.split('#').map((e) => e.split('\$')).toList();
           }
           // LogUtils.printLog('$episode');
-          // LogUtils.printLog('${episode!.map((e) => e[0]).toList()}');
+          LogUtils.printLog('${episode.map((e) => e[0]).toList()}');
         });
       }
     });
@@ -54,7 +52,6 @@ class _VideoDetailState extends State<VideoDetail> {
   @override
   void initState() {
     super.initState();
-    episode;
     _currentIndex = 0;
     _getVideoDetail();
   }
@@ -92,7 +89,7 @@ class _VideoDetailState extends State<VideoDetail> {
                         height: UIData.spaceSizeHeight40,
                         child: getVideoDetail!.vodPlayUrl.isNotEmpty
                             ? ListView.builder(
-                                itemCount: episode!.length,
+                                itemCount: episode.length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (BuildContext context, int index) {
                                   return GestureDetector(
@@ -103,24 +100,22 @@ class _VideoDetailState extends State<VideoDetail> {
                                         color: _currentIndex != index
                                             ? Colors.white
                                             : UIData.episodeColor,
-                                        width: UIData.spaceSizeWith110,
-                                        child: CommonText.normalText(
-                                            episode!.isNotEmpty
-                                                ? '${episode!.map((e) => e[0]).toList()[index]}'
-                                                : '',
-                                            color: _currentIndex == index
-                                                ? UIData.primarySwatch
-                                                : Colors.black,
-                                            overflow: TextOverflow.fade)),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal:
+                                                  UIData.spaceSizeWith24),
+                                          child: CommonText.normalText(
+                                              episode.isNotEmpty
+                                                  ? '${episode[index][0]}'
+                                                  : '',
+                                              color: _currentIndex == index
+                                                  ? UIData.primarySwatch
+                                                  : Colors.black,
+                                              overflow: TextOverflow.fade),
+                                        )),
                                     onTap: () {
                                       changeEpisode(index);
-                                      setState(() {
-                                        key.currentState != null
-                                            ? key.currentState!
-                                                .changeIndex(_currentIndex)
-                                            : 0;
-                                        // print('${key.currentState}');
-                                      });
+                                      widget.onChange(index);
                                     },
                                   );
                                 },
@@ -156,15 +151,7 @@ class _VideoDetailState extends State<VideoDetail> {
     if (index != _currentIndex) {
       setState(() {
         _currentIndex = index;
-        print(_currentIndex);
       });
     }
-  }
-
-  void changeIndex(int index) {
-    setState(() {
-      _currentIndex = index;
-      print('111111$_currentIndex');
-    });
   }
 }
