@@ -7,6 +7,7 @@ import 'package:primevedio/utils/ui_data.dart';
 
 class PlayPage extends StatefulWidget {
   final int ids;
+
   const PlayPage({Key? key, required this.ids}) : super(key: key);
 
   @override
@@ -19,11 +20,6 @@ class _PlayPageState extends State<PlayPage> {
     return Scaffold(
       backgroundColor: UIData.primaryColor,
       appBar: AppBar(
-        // 修改返回的icon
-        // leading: IconButton(
-        //   icon: const Icon(Icons.android_rounded),
-        //   onPressed: () => {Navigator.of(context).pop('刷新')},
-        // ),
         backgroundColor: UIData.primaryColor,
       ),
       body: PlayVideoContent(ids: widget.ids),
@@ -33,6 +29,7 @@ class _PlayPageState extends State<PlayPage> {
 
 class PlayVideoContent extends StatefulWidget {
   final int ids;
+
   const PlayVideoContent({Key? key, required this.ids}) : super(key: key);
 
   @override
@@ -40,16 +37,25 @@ class PlayVideoContent extends StatefulWidget {
 }
 
 class _PlayVideoContentState extends State<PlayVideoContent> {
+  // // final GlobalKey<_VideoPlayerScreenState>  vodPlayKey=GlobalKey();
+  // final GlobalKey<_DetailContentState> detailKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Container(
+      SizedBox(
         height: UIData.spaceSizeHeight228,
-        // color: Colors.red,
-        child: const VideoPlayerScreen(),
+        child: VideoPlayerScreen(
+          ids: widget.ids,
+          // key: vodPlayKey,
+        ),
       ),
       Expanded(
-        child: DetailContent(ids: widget.ids),
+        child: SizedBox(
+            height: UIData.spaceSizeHeight228,
+            child: DetailContent(
+              ids: widget.ids,
+              // key: detailKey,
+            )),
       )
     ]);
   }
@@ -57,7 +63,12 @@ class _PlayVideoContentState extends State<PlayVideoContent> {
 
 class DetailContent extends StatefulWidget {
   final int ids;
-  const DetailContent({Key? key, required this.ids}) : super(key: key);
+  // final ValueChanged<int> detailContentCallBack;
+  const DetailContent({
+    Key? key,
+    required this.ids,
+    // required this.detailContentCallBack,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DetailContentState();

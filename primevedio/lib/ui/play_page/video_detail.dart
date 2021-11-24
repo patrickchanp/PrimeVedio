@@ -8,6 +8,8 @@ import 'package:primevedio/utils/log_util.dart';
 import 'package:primevedio/utils/my_icons.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
+final key = GlobalKey<_VideoDetailState>();
+
 class VideoDetail extends StatefulWidget {
   final int ids;
 
@@ -23,6 +25,9 @@ class VideoDetail extends StatefulWidget {
 class _VideoDetailState extends State<VideoDetail> {
   VideoDetailContent? getVideoDetail;
   List? episode;
+  late int _currentIndex;
+
+  int get currentIndex => _currentIndex;
 
   _getVideoDetail() async {
     Map<String, Object> params = {
@@ -50,6 +55,7 @@ class _VideoDetailState extends State<VideoDetail> {
   void initState() {
     super.initState();
     episode;
+    _currentIndex = 0;
     _getVideoDetail();
   }
 
@@ -94,16 +100,27 @@ class _VideoDetailState extends State<VideoDetail> {
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.symmetric(
                                             horizontal: UIData.spaceSizeWith4),
-                                        color: Colors.white,
+                                        color: _currentIndex != index
+                                            ? Colors.white
+                                            : UIData.episodeColor,
                                         width: UIData.spaceSizeWith110,
                                         child: CommonText.normalText(
                                             episode!.isNotEmpty
                                                 ? '${episode!.map((e) => e[0]).toList()[index]}'
                                                 : '',
-                                            color: Colors.black,
+                                            color: _currentIndex == index
+                                                ? UIData.primarySwatch
+                                                : Colors.black,
                                             overflow: TextOverflow.fade)),
                                     onTap: () {
-                                      setState(() {});
+                                      changeEpisode(index);
+                                      setState(() {
+                                        key.currentState != null
+                                            ? key.currentState!
+                                                .changeIndex(_currentIndex)
+                                            : 0;
+                                        // print('${key.currentState}');
+                                      });
                                     },
                                   );
                                 },
@@ -133,5 +150,21 @@ class _VideoDetailState extends State<VideoDetail> {
             child: Center(
               child: CommonText.mainTitle('加载中'),
             ));
+  }
+
+  void changeEpisode(int index) {
+    if (index != _currentIndex) {
+      setState(() {
+        _currentIndex = index;
+        print(_currentIndex);
+      });
+    }
+  }
+
+  void changeIndex(int index) {
+    setState(() {
+      _currentIndex = index;
+      print('111111$_currentIndex');
+    });
   }
 }

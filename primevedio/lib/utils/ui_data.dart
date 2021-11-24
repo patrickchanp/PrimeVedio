@@ -9,6 +9,7 @@ class UIData {
   static const mainTitleColor = Color(0xFF00b9e7);
   static const unselectColor = Color(0xFF5A6777);
   static const primarySwatch = Color(0xFF00B9E7);
+  static const episodeColor = Color(0xFF09647A);
 
   //字号
   static double fontSize16 = ScreenUtil().setSp(16);

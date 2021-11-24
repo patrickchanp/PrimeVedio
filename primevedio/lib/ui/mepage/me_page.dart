@@ -1,46 +1,58 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:primevedio/http/http_util.dart';
-import 'package:primevedio/utils/log_util.dart';
+import 'package:primevedio/ui/mepage/widget_two.dart';
 
-class MePage extends StatefulWidget {
-  const MePage({Key? key}) : super(key: key);
+final key = GlobalKey<_MyStatefulWidgetOneState>();
 
-  @override
-  State<MePage> createState() => _MePageState();
-}
+class GlobalKeyCommunication extends StatelessWidget {
+  const GlobalKeyCommunication({Key? key}) : super(key: key);
 
-class _MePageState extends State<MePage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text('test'),
-        RaisedButton(onPressed: () {}
-            // getRequestData1();
-            )
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Global Key Communication',
+          style: TextStyle(fontSize: 14.0),
+        ),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          MyStatefulWidgetOne(key: key),
+          const MyStatefulWidgetTwo(),
+        ],
+      ),
+    );
+  }
+}
+
+class MyStatefulWidgetOne extends StatefulWidget {
+  const MyStatefulWidgetOne({Key? key}) : super(key: key);
+  @override
+  _MyStatefulWidgetOneState createState() => _MyStatefulWidgetOneState();
+}
+
+class _MyStatefulWidgetOneState extends State<MyStatefulWidgetOne> {
+  String _message = "hhhhhhh world!";
+  String get message => _message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 20.0,
+          ),
+          Text('Widget one message: ' + _message)
+        ],
+      ),
     );
   }
 
-  void getRequestData1() async {
-    Dio dio = Dio();
-    String url = "http://dy.51isu.com:11801/api.php/provide/vod/";
-    Response response = await dio.get(url);
-    // .then((value) => value.data)
-    // .catchError((e) => print(e));
-    var data = response.data;
-    LogUtils.printLog(data);
-  }
-
-  void getRequestData2() async {
-    Dio dio = Dio();
-    String url = "http://dy.51isu.com:11801/api.php/provide/vod/";
-    Response response = await dio.get(url);
-    // .then((value) => value.data)
-    // .catchError((e) => print(e));
-    var data = response.data;
-    LogUtils.printLog(data);
+  void updateMessage(String msg) {
+    setState(() {
+      _message = msg;
+    });
   }
 }
