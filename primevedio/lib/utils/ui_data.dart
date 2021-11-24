@@ -12,6 +12,7 @@ class UIData {
 
   //字号
   static double fontSize16 = ScreenUtil().setSp(16);
+  static double fontSize18 = ScreenUtil().setSp(18);
   static double fontSize20 = ScreenUtil().setSp(20);
   static double fontSize26 = ScreenUtil().setSp(26);
   //宽度高度

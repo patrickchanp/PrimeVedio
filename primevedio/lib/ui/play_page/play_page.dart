@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:primevedio/common/indicator.dart';
+import 'package:primevedio/ui/play_page/video_player_screen.dart';
 import 'package:primevedio/ui/play_page/video_detail.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
@@ -16,12 +17,13 @@ class _PlayPageState extends State<PlayPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: UIData.primaryColor,
       appBar: AppBar(
         // 修改返回的icon
-        leading: IconButton(
-          icon: const Icon(Icons.android_rounded),
-          onPressed: () => {Navigator.of(context).pop('刷新')},
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.android_rounded),
+        //   onPressed: () => {Navigator.of(context).pop('刷新')},
+        // ),
         backgroundColor: UIData.primaryColor,
       ),
       body: PlayVideoContent(ids: widget.ids),
@@ -43,7 +45,8 @@ class _PlayVideoContentState extends State<PlayVideoContent> {
     return Column(children: [
       Container(
         height: UIData.spaceSizeHeight228,
-        color: Colors.red,
+        // color: Colors.red,
+        child: const VideoPlayerScreen(),
       ),
       Expanded(
         child: DetailContent(ids: widget.ids),
@@ -103,7 +106,12 @@ class _DetailContentState extends State<DetailContent>
         Expanded(
             child: TabBarView(
           controller: _tabController,
-          children: [VideoDetail(ids: widget.ids), const Text('test')],
+          children: [
+            VideoDetail(
+              ids: widget.ids,
+            ),
+            const Text('test')
+          ],
         ))
       ],
     );
