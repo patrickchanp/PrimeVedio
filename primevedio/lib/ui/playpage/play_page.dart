@@ -5,14 +5,17 @@ import 'package:primevedio/common/indicator.dart';
 import 'package:primevedio/http/http_options.dart';
 import 'package:primevedio/http/http_util.dart';
 import 'package:primevedio/model/video_detail_model.dart';
-import 'package:primevedio/ui/play_page/video_detail.dart';
+import 'package:primevedio/ui/playpage/video_detail.dart';
 import 'package:primevedio/utils/ui_data.dart';
 import 'package:video_player/video_player.dart';
 
+import 'guess_like.dart';
+
 class PlayPage extends StatefulWidget {
   final int ids;
-
-  const PlayPage({Key? key, required this.ids}) : super(key: key);
+  final int typeId;
+  const PlayPage({Key? key, required this.ids, required this.typeId})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PlayPageState();
@@ -101,7 +104,9 @@ class _PlayPageState extends State<PlayPage>
               ids: widget.ids,
               onChange: (index) => getVideoByIndex(index),
             ),
-            const Text('test')
+            GuessLike(
+              typeId: widget.typeId,
+            ),
           ],
         ))
       ],

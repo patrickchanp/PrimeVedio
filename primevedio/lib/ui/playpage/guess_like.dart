@@ -9,15 +9,15 @@ import 'package:primevedio/ui/playpage/play_page.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
-class GridViewPage extends StatefulWidget {
+class GuessLike extends StatefulWidget {
   final int typeId;
-  const GridViewPage({Key? key, required this.typeId}) : super(key: key);
+  const GuessLike({Key? key, required this.typeId}) : super(key: key);
 
   @override
-  _GridViewPageState createState() => _GridViewPageState();
+  State<StatefulWidget> createState() => _GuessLikeState();
 }
 
-class _GridViewPageState extends State<GridViewPage> {
+class _GuessLikeState extends State<GuessLike> {
   List<PageList>? getRecentList = [];
 
   _getRecentRelease() async {
@@ -48,25 +48,26 @@ class _GridViewPageState extends State<GridViewPage> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith24),
+      shrinkWrap: false,
+      primary: false,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.6,
-        mainAxisSpacing: UIData.spaceSizeHeight22,
-        crossAxisSpacing: UIData.spaceSizeWith24,
+        crossAxisCount: 1,
+        childAspectRatio: 3,
+        mainAxisSpacing: UIData.spaceSizeHeight11,
       ),
       itemCount: getRecentList!.length,
-      itemBuilder: (context, int index) => _buildGridItem(index),
+      itemBuilder: (context, int index) => _buildItem(index),
     );
   }
 
-  _buildGridItem(int index) {
+  _buildItem(int index) {
     return GestureDetector(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
+            width: ScreenUtil().screenWidth / 2,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(ScreenUtil().radius(12)),
               image: DecorationImage(
@@ -74,12 +75,21 @@ class _GridViewPageState extends State<GridViewPage> {
                       CachedNetworkImageProvider(getRecentList![index].vodPic),
                   fit: BoxFit.cover),
             ),
-            height: UIData.spaceSizeHeight202,
+            height: UIData.spaceSizeHeight104,
           ),
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.only(top: 12.0),
-            child: CommonText.titleText(getRecentList![index].vodName),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: UIData.spaceSizeWith16, top: UIData.spaceSizeHeight11),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonText.titleText(' ${getRecentList![index].vodName}'),
+                  CommonText.titleText(getRecentList![index].vodLang),
+                  CommonText.titleText(getRecentList![index].vodArea),
+                ],
+              ),
+            ),
           )
         ],
       ),

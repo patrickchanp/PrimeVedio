@@ -10,6 +10,7 @@ class UIData {
   static const unselectColor = Color(0xFF5A6777);
   static const primarySwatch = Color(0xFF00B9E7);
   static const episodeColor = Color(0xFF09647A);
+  static const hintColor = Color(0xFF9C9C9C);
 
   //字号
   static double fontSize16 = ScreenUtil().setSp(16);
@@ -27,6 +28,9 @@ class UIData {
   static double spaceSizeHeight40 = ScreenUtil().setHeight(40);
   static double spaceSizeHeight45 = ScreenUtil().setHeight(45);
   static double spaceSizeHeight54 = ScreenUtil().setHeight(54);
+  static double spaceSizeHeight65 = ScreenUtil().setHeight(65);
+  static double spaceSizeHeight11 = ScreenUtil().setHeight(11);
+  static double spaceSizeHeight1 = ScreenUtil().setHeight(1);
   static double spaceSizeWith66 = ScreenUtil().setWidth(66);
   static double spaceSizeWith4 = ScreenUtil().setWidth(4);
   static double spaceSizeWith10 = ScreenUtil().setWidth(10);

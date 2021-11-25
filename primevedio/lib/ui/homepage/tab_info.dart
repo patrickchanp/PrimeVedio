@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:primevedio/http/http_options.dart';
 import 'package:primevedio/http/http_util.dart';
 import 'package:primevedio/model/swiper_list.dart';
-import 'package:primevedio/ui/play_page/play_page.dart';
+import 'package:primevedio/ui/playpage/play_page.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
@@ -122,6 +122,7 @@ class _ViewPageState extends State<ViewPage> {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return PlayPage(
             ids: getSwiperList![index].vodId,
+            typeId: getSwiperList![index].typeId,
           );
         }));
       },

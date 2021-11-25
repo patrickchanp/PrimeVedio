@@ -12,4 +12,6 @@ class MyIcons {
       IconData(0xe61d, fontFamily: 'custom', matchTextDirection: true);
   static const IconData sortIcon =
       IconData(0xe610, fontFamily: 'custom', matchTextDirection: true);
+  static const IconData clearIcon =
+      IconData(0xe616, fontFamily: 'custom', matchTextDirection: true);
 }

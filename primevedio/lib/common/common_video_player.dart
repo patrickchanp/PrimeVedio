@@ -49,8 +49,8 @@ class _CommonVideoPlayerState extends State<CommonVideoPlayer> {
         ElevatedButton(
           child: Icon(
             widget.videoPlayerController!.value.isPlaying == false
-                ? Icons.pause
-                : Icons.play_arrow,
+                ? Icons.play_arrow
+                : Icons.pause,
           ),
           onPressed: () {
             setState(() {

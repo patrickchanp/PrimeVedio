@@ -49,4 +49,20 @@ class CommonText {
       overflow: overflow,
     );
   }
+
+  //提示框文本
+  static Widget dialogText(text,
+      {textAlign = TextAlign.center,
+      overflow = TextOverflow.ellipsis,
+      color = Colors.black}) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontSize: UIData.fontSize20,
+          fontWeight: FontWeight.normal,
+          color: color),
+      textAlign: textAlign,
+      overflow: overflow,
+    );
+  }
 }
