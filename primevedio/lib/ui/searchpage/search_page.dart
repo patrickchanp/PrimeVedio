@@ -5,11 +5,8 @@ import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/my_icons.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
-// ignore: must_be_immutable
 class SearchPage extends StatefulWidget {
-  List<String> contents = [];
-  List<String> hisArray = ['testttttttttt', '11112222222', 'test', 'winddd'];
-  SearchPage({Key? key}) : super(key: key);
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -17,6 +14,13 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   String searchValue = '';
+  final List<String> contents = [];
+  late List<String> hisArray = [
+    'testttttttttt',
+    '11112222222',
+    'test',
+    'winddd'
+  ];
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -27,7 +31,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void dispose() {
     super.dispose();
-    // _controller.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -46,28 +50,24 @@ class _SearchPageState extends State<SearchPage> {
           left: UIData.spaceSizeWith26),
       child: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(ScreenUtil().radius(5))),
-            child: TextField(
-              autofocus: true,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: '  请输入关键字搜索',
-                  hintStyle: TextStyle(
-                    color: UIData.hintColor,
-                    fontSize: UIData.fontSize20,
-                  )),
-              style:
-                  TextStyle(fontSize: UIData.fontSize20, color: Colors.black),
-              onChanged: (value) {
-                setState(() {
-                  searchValue = value;
-                });
-              },
-              controller: _controller,
-            ),
+          TextField(
+            autofocus: true,
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: InputBorder.none,
+                hintText: '  请输入关键字搜索',
+                hintStyle: TextStyle(
+                  color: UIData.hintColor,
+                  fontSize: UIData.fontSize20,
+                )),
+            style: TextStyle(fontSize: UIData.fontSize20, color: Colors.black),
+            onChanged: (value) {
+              setState(() {
+                searchValue = value;
+              });
+            },
+            controller: _controller,
           ),
           SizedBox(
             height: UIData.spaceSizeHeight30,
@@ -95,15 +95,17 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget _getHistoryWidget() {
-    return Column(children: <Widget>[
-      Wrap(
+    return SizedBox(
+      width: double.infinity, //百分百相对
+      child: Wrap(
+        alignment: WrapAlignment.start,
         spacing: UIData.spaceSizeWith10,
         runSpacing: UIData.spaceSizeHeight11,
-        children: List.generate(widget.hisArray.length, (index) {
+        children: List.generate(hisArray.length, (index) {
           return InkWell(
             onTap: () {
               setState(() {
-                searchValue = widget.hisArray[index];
+                searchValue = hisArray[index];
               });
               _controller.text = searchValue;
             },
@@ -116,38 +118,43 @@ class _SearchPageState extends State<SearchPage> {
                 padding:
                     EdgeInsets.symmetric(vertical: UIData.spaceSizeHeight11),
                 child: CommonText.dialogText(
-                  widget.hisArray[index],
+                  hisArray[index],
                 ),
               ),
             ),
           );
         }),
-      )
-    ]);
+      ),
+    );
   }
 
   showClearDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
-            title: CommonText.dialogText("提示\n"),
-            content: CommonText.dialogText("确定清空搜索记录？"),
+          return AlertDialog(
+            title: CommonText.dialogText("提示"),
+            content: CommonText.dialogText("确定清空？"),
             actions: <Widget>[
-              CupertinoDialogAction(
-                child: CommonText.dialogText("取消"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              CupertinoDialogAction(
-                child: CommonText.dialogText("确定"),
-                onPressed: () {
-                  setState(() {
-                    widget.hisArray = [];
-                  });
-                  Navigator.pop(context);
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    child: CommonText.dialogText("取消"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  TextButton(
+                    child: CommonText.dialogText("确定"),
+                    onPressed: () {
+                      setState(() {
+                        hisArray = [];
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
               ),
             ],
           );

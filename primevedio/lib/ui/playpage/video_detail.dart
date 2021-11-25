@@ -61,88 +61,87 @@ class _VideoDetailState extends State<VideoDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return getVideoDetail != null
-        ? ListView(
-            padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith16),
-            children: [
-                Container(
-                  color: UIData.primaryColor,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    if (getVideoDetail != null) {
+      return ListView(
+          padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith16),
+          children: [
+            Container(
+              color: UIData.primaryColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CommonText.normalText('选集', color: Colors.white),
-                          const Icon(
-                            MyIcons.sortIcon,
-                            color: Colors.white,
-                          ),
-                        ],
+                      CommonText.normalText('选集', color: Colors.white),
+                      const Icon(
+                        MyIcons.sortIcon,
+                        color: Colors.white,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: SizedBox(
-                          height: UIData.spaceSizeHeight40,
-                          child: getVideoDetail!.vodPlayUrl.isNotEmpty
-                              ? ListView.builder(
-                                  itemCount: episode.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return GestureDetector(
-                                      child: Container(
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal:
-                                                  UIData.spaceSizeWith4),
-                                          color: _currentIndex != index
-                                              ? Colors.white
-                                              : UIData.episodeColor,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    UIData.spaceSizeWith24),
-                                            child: CommonText.normalText(
-                                              episode.isNotEmpty
-                                                  ? '${episode[index][0]}'
-                                                  : '',
-                                              color: _currentIndex == index
-                                                  ? UIData.primarySwatch
-                                                  : Colors.black,
-                                            ),
-                                          )),
-                                      onTap: () {
-                                        changeEpisode(index);
-                                        widget.onChange(index);
-                                      },
-                                    );
-                                  },
-                                )
-                              : Center(
-                                  child: CommonText.mainTitle('暂无资源'),
-                                ),
-                        ),
-                      ),
-                      CommonText.normalText('介绍\n', color: Colors.white),
-                      CommonText.titleText(
-                        '名称：${getVideoDetail!.vodName}\n导演：${getVideoDetail!.vodDirector}',
-                      ),
-                      CommonText.titleText('主演：${getVideoDetail!.vodActor}',
-                          overflow: TextOverflow.clip),
-                      CommonText.titleText(
-                          '年代：${getVideoDetail!.vodYear}\n语言：${getVideoDetail!.vodLang}'),
-                      CommonText.titleText('介绍：${getVideoDetail!.vodContent}\n',
-                          overflow: TextOverflow.clip)
                     ],
                   ),
-                ),
-              ])
-        : Container(
-            color: UIData.primaryColor,
-            child: Center(
-              child: CommonText.mainTitle('加载中'),
-            ));
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: SizedBox(
+                      height: UIData.spaceSizeHeight40,
+                      child: getVideoDetail!.vodPlayUrl.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: episode.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  child: Container(
+                                      alignment: Alignment.center,
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: UIData.spaceSizeWith4),
+                                      color: _currentIndex != index
+                                          ? Colors.white
+                                          : UIData.episodeColor,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: UIData.spaceSizeWith24),
+                                        child: CommonText.normalText(
+                                          episode.isNotEmpty
+                                              ? '${episode[index][0]}'
+                                              : '',
+                                          color: _currentIndex == index
+                                              ? UIData.primarySwatch
+                                              : Colors.black,
+                                        ),
+                                      )),
+                                  onTap: () {
+                                    changeEpisode(index);
+                                    widget.onChange(index);
+                                  },
+                                );
+                              },
+                            )
+                          : Center(
+                              child: CommonText.mainTitle('暂无资源'),
+                            ),
+                    ),
+                  ),
+                  CommonText.normalText('介绍\n', color: Colors.white),
+                  CommonText.titleText(
+                    '名称：${getVideoDetail!.vodName}\n导演：${getVideoDetail!.vodDirector}',
+                  ),
+                  CommonText.titleText('主演：${getVideoDetail!.vodActor}',
+                      overflow: TextOverflow.clip),
+                  CommonText.titleText(
+                      '年代：${getVideoDetail!.vodYear}\n语言：${getVideoDetail!.vodLang}'),
+                  CommonText.titleText('介绍：${getVideoDetail!.vodContent}\n',
+                      overflow: TextOverflow.clip)
+                ],
+              ),
+            ),
+          ]);
+    } else {
+      return Container(
+          color: UIData.primaryColor,
+          child: Center(
+            child: CommonText.mainTitle('加载中'),
+          ));
+    }
   }
 
   void changeEpisode(int index) {

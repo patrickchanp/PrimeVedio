@@ -47,15 +47,10 @@ class _GuessLikeState extends State<GuessLike> {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith24),
       shrinkWrap: false,
       primary: false,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        childAspectRatio: 3,
-        mainAxisSpacing: UIData.spaceSizeHeight11,
-      ),
       itemCount: getRecentList!.length,
       itemBuilder: (context, int index) => _buildItem(index),
     );
@@ -63,35 +58,39 @@ class _GuessLikeState extends State<GuessLike> {
 
   _buildItem(int index) {
     return GestureDetector(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: ScreenUtil().screenWidth / 2,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(ScreenUtil().radius(12)),
-              image: DecorationImage(
-                  image:
-                      CachedNetworkImageProvider(getRecentList![index].vodPic),
-                  fit: BoxFit.cover),
-            ),
-            height: UIData.spaceSizeHeight104,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  left: UIData.spaceSizeWith16, top: UIData.spaceSizeHeight11),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CommonText.titleText(' ${getRecentList![index].vodName}'),
-                  CommonText.titleText(getRecentList![index].vodLang),
-                  CommonText.titleText(getRecentList![index].vodArea),
-                ],
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: UIData.spaceSizeHeight11),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: ScreenUtil().screenWidth / 2,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(ScreenUtil().radius(12)),
+                image: DecorationImage(
+                    image: CachedNetworkImageProvider(
+                        getRecentList![index].vodPic),
+                    fit: BoxFit.cover),
               ),
+              height: UIData.spaceSizeHeight104,
             ),
-          )
-        ],
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    left: UIData.spaceSizeWith16,
+                    top: UIData.spaceSizeHeight11),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CommonText.titleText(' ${getRecentList![index].vodName}'),
+                    CommonText.titleText(getRecentList![index].vodLang),
+                    CommonText.titleText(getRecentList![index].vodArea),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
