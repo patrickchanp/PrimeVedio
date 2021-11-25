@@ -6,6 +6,7 @@ import 'package:primevedio/http/http_options.dart';
 import 'package:primevedio/http/http_util.dart';
 import 'package:primevedio/model/video_detail_model.dart';
 import 'package:primevedio/ui/playpage/video_detail.dart';
+import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
 import 'package:video_player/video_player.dart';
 
@@ -69,7 +70,7 @@ class _PlayPageState extends State<PlayPage>
   @override
   void dispose() {
     _tabController.dispose();
-    _controller!.dispose();
+    _controller != null ? _controller!.dispose() : '';
     super.dispose();
   }
 
@@ -121,7 +122,10 @@ class _PlayPageState extends State<PlayPage>
             ? CommonVideoPlayer(
                 videoPlayerController: _controller,
               )
-            : Container(),
+            : Container(
+                alignment: Alignment.center,
+                child: CommonText.mainTitle('暂无资源，敬请期待！'),
+              ),
       ),
       Expanded(
         child: SizedBox(
