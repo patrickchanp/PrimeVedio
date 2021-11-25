@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 
-// const String VIDEO_URL = 'https://www.runoob.com/try/demo_source/mov_bbb.mp4';
-
 class CommonVideoPlayer extends StatefulWidget {
-  final VideoPlayerController videoPlayerController;
+  final VideoPlayerController? videoPlayerController;
   const CommonVideoPlayer({Key? key, required this.videoPlayerController})
       : super(key: key);
 
@@ -14,21 +12,19 @@ class CommonVideoPlayer extends StatefulWidget {
 }
 
 class _CommonVideoPlayerState extends State<CommonVideoPlayer> {
-  late VideoPlayerController _controller;
   late Future _initializeVideoPlayerFuture;
 
   @override
   void initState() {
     super.initState();
-    _controller.setLooping(true);
-    _controller;
-    _initializeVideoPlayerFuture = _controller.initialize();
+    // widget.videoPlayerController!.setLooping(true);
+    _initializeVideoPlayerFuture = widget.videoPlayerController!.initialize();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    // widget.videoPlayerController!.dispose();
   }
 
   @override
@@ -40,9 +36,8 @@ class _CommonVideoPlayerState extends State<CommonVideoPlayer> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return AspectRatio(
-                // aspectRatio: _controller.value.aspectRatio,
-                aspectRatio: 16 / 9,
-                child: VideoPlayer(_controller),
+                aspectRatio: widget.videoPlayerController!.value.aspectRatio,
+                child: VideoPlayer(widget.videoPlayerController!),
               );
             } else {
               return const Center(
@@ -51,16 +46,18 @@ class _CommonVideoPlayerState extends State<CommonVideoPlayer> {
             }
           },
         ),
-        RaisedButton(
+        ElevatedButton(
           child: Icon(
-            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+            widget.videoPlayerController!.value.isPlaying == false
+                ? Icons.pause
+                : Icons.play_arrow,
           ),
           onPressed: () {
             setState(() {
-              if (_controller.value.isPlaying) {
-                _controller.pause();
+              if (widget.videoPlayerController!.value.isPlaying) {
+                widget.videoPlayerController!.pause();
               } else {
-                _controller.play();
+                widget.videoPlayerController!.play();
               }
             });
           },

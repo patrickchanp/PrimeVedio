@@ -42,8 +42,6 @@ class _VideoDetailState extends State<VideoDetail> {
           if (vodUrl.isNotEmpty) {
             episode = vodUrl.split('#').map((e) => e.split('\$')).toList();
           }
-          // LogUtils.printLog('$episode');
-          LogUtils.printLog('${episode.map((e) => e[0]).toList()}');
         });
       }
     });

@@ -53,6 +53,7 @@ class _MyStatefulWidgetOneState extends State<MyStatefulWidgetOne> {
   void updateMessage(String msg) {
     setState(() {
       _message = msg;
+      print('1111$_message');
     });
   }
 }

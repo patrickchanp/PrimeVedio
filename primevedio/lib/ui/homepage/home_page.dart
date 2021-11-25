@@ -46,7 +46,6 @@ class CustomTabBarView extends StatefulWidget {
 class _CustomTabBarViewState extends State<CustomTabBarView>
     with TickerProviderStateMixin {
   List<TabBarType>? getVideoType = [];
-
   late TabController _tabController;
 
   @override
