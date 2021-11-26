@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:primevedio/ui/searchpage/search_result_page.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/my_icons.dart';
 import 'package:primevedio/utils/ui_data.dart';
@@ -66,6 +67,13 @@ class _SearchPageState extends State<SearchPage> {
               setState(() {
                 searchValue = value;
               });
+            },
+            onSubmitted: (value) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SearchResultPage(
+                  keys: value,
+                );
+              }));
             },
             controller: _controller,
           ),
