@@ -1,9 +1,12 @@
 class SearchValue {
-  late String word;
+  late String searchWord;
+  // late DateTime createTime;
 
-  SearchValue(this.word);
+  //时间排序
+
+  SearchValue(this.searchWord);
 
   SearchValue.fromMap(Map map) {
-    word = map[word];
+    searchWord = map[searchWord];
   }
 }

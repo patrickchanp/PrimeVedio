@@ -2,10 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:primevedio/sqflite/db.dart';
+import 'package:primevedio/sqflite/helper.dart';
+import 'package:primevedio/sqflite/search_history.dart';
 import 'package:primevedio/ui/searchpage/search_result_page.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/my_icons.dart';
 import 'package:primevedio/utils/ui_data.dart';
+
+Future<List<SearchValue>> fetchSearchValuesFromDatabase() async {
+  var dbHelper = DBHelper();
+  Future<List<SearchValue>> searchValues = dbHelper.getSearchValues();
+  return searchValues;
+}
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -15,8 +23,10 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  // late List<SearchValue> searchValues;
+
   late DBUtil dbUtil;
-  String searchValue = '';
+  late String searchValue;
   final List<String> contents = [];
   late List hisArray = ['你好', '我的', 'testtttt'];
   final TextEditingController _controller = TextEditingController();
@@ -106,38 +116,47 @@ class _SearchPageState extends State<SearchPage> {
   Widget _getHistoryWidget() {
     return SizedBox(
       width: double.infinity, //百分百相对
-      child: Wrap(
-        alignment: WrapAlignment.start,
-        spacing: UIData.spaceSizeWith10,
-        runSpacing: UIData.spaceSizeHeight11,
-        children: List.generate(hisArray.length, (index) {
-          return InkWell(
-            onTap: () {
-              setState(() {
-                searchValue = hisArray[index];
-              });
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SearchResultPage(
-                  keys: searchValue,
-                );
-              }));
-            },
-            child: Chip(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(ScreenUtil().radius(2)),
-              ),
-              backgroundColor: Colors.white,
-              label: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: UIData.spaceSizeHeight11),
-                child: CommonText.dialogText(
-                  hisArray[index],
-                ),
-              ),
-            ),
-          );
-        }),
-      ),
+      child: FutureBuilder<List<SearchValue>>(
+          future: fetchSearchValuesFromDatabase(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Wrap(
+                alignment: WrapAlignment.start,
+                spacing: UIData.spaceSizeWith10,
+                runSpacing: UIData.spaceSizeHeight11,
+                children: List.generate(snapshot.data!.length, (index) {
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        searchValue = snapshot.data![index].searchWord;
+                      });
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SearchResultPage(
+                          keys: searchValue,
+                        );
+                      }));
+                    },
+                    child: Chip(
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(ScreenUtil().radius(2)),
+                      ),
+                      backgroundColor: Colors.white,
+                      label: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: UIData.spaceSizeHeight11),
+                        child: CommonText.dialogText(
+                            snapshot.data![index].searchWord),
+                      ),
+                    ),
+                  );
+                }),
+              );
+            } else {
+              return Container();
+            }
+          }),
     );
   }
 
@@ -175,8 +194,8 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _insertData() async {
-    await dbUtil.open();
-    Map<String, dynamic> par = <String, dynamic>{};
-    par['word'] = _controller.text;
+    var searchWord = SearchValue(searchValue);
+    var dbHelper = DBHelper();
+    dbHelper.saveSearchValue(searchWord);
   }
 }

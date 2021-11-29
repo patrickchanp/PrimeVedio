@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:primevedio/sqflite/db_helper.dart';
-import 'package:primevedio/sqflite/employee.dart';
+import 'package:primevedio/scoped_models/db_helper.dart';
+import 'package:primevedio/scoped_models/employee.dart';
 
 import 'demo.dart';
 

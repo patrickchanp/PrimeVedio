@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:primevedio/sqflite/db_helper.dart';
+import 'package:primevedio/scoped_models/db_helper.dart';
 import 'dart:async';
 
-import 'package:primevedio/sqflite/employee.dart';
+import 'package:primevedio/scoped_models/employee.dart';
 
 Future<List<Employee>> fetchEmployeesFromDatabase() async {
   var dbHelper = DBHelper();
@@ -22,10 +22,10 @@ class MyEmployeeListPageState extends State<MyEmployeeList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Employee List'),
+        title: const Text('Employee List'),
       ),
       body: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: FutureBuilder<List<Employee>>(
           future: fetchEmployeesFromDatabase(),
           builder: (context, snapshot) {
@@ -46,7 +46,7 @@ class MyEmployeeListPageState extends State<MyEmployeeList> {
                         ]);
                   });
             } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
+              return Text("${snapshot.stackTrace}");
             }
             return Container(
               alignment: AlignmentDirectional.center,

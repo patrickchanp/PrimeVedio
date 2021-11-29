@@ -1,68 +1,78 @@
 import 'dart:async';
-import 'dart:io' as io;
+
 import 'package:path/path.dart';
+import 'package:primevedio/sqflite/super_hero.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
 
-import 'employee.dart';
+class HeroDB {
+  late Database database;
 
-class DBHelper {
-  late final Database _db;
+  // Initialize database
+  Future<Database> initDatabase() async {
+    database = await openDatabase(
+      // Ensure the path is correctly for any platform
+      join(await getDatabasesPath(), "hero_database.db"),
+      onCreate: (db, version) {
+        return db.execute("CREATE TABLE HEROS("
+            "name TEXT,"
+            ")");
+      },
 
-  Future<Database> get db async {
-    if (_db != null) {
-      _db = await initDb();
+      // Version
+      version: 1,
+    );
+
+    return database;
+  }
+
+  // Check database connected
+  Future<Database> getDatabaseConnect() async {
+    if (database != null) {
+      return database;
+    } else {
+      return await initDatabase();
     }
-    return _db;
   }
 
-  Future initDb() async {
-    io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "test.db");
-    var theDb = await openDatabase(path, version: 1, onCreate: _onCreate);
-    return theDb;
-  }
+  // Show all data
+  Future<List<SuperHero>> showAllData() async {
+    final Database db = await getDatabaseConnect();
+    final List<Map<String, dynamic>> maps = await db.query("HEROS");
 
-  void _onCreate(Database db, int version) async {
-    // When creating the db, create the table
-    await db.execute(
-        "CREATE TABLE Employee(id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT, mobileno TEXT,emailId TEXT )");
-    print("Created tables");
-  }
-
-  void saveEmployee(Employee employee) async {
-    var dbClient = await db;
-    await dbClient.transaction((txn) async {
-      return await txn.rawInsert(
-          'INSERT INTO Employee(firstname, lastname, mobileno, emailid ) VALUES(' +
-              ''' +
-              employee.firstName +
-              ''' +
-              ',' +
-              ''' +
-              employee.lastName +
-              ''' +
-              ',' +
-              ''' +
-              employee.mobileNo +
-              ''' +
-              ',' +
-              ''' +
-              employee.emailId +
-              ''' +
-              ')');
+    return List.generate(maps.length, (i) {
+      return SuperHero(
+        name: maps[i]["name"],
+      );
     });
   }
 
-  Future<List<Employee>> getEmployees() async {
-    var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Employee');
-    List<Employee> employees = [];
-    for (int i = 0; i < list.length; i++) {
-      employees.add(Employee(list[i]["firstname"], list[i]["lastname"],
-          list[i]["mobileno"], list[i]["emailid"]));
-    }
-    print(employees.length);
-    return employees;
+  // Insert
+  Future<void> insertData(SuperHero hero) async {
+    final Database db = await getDatabaseConnect();
+    await db.insert(
+      "HEROS",
+      hero.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // Update
+  Future<void> updateData(SuperHero hero) async {
+    final db = await getDatabaseConnect();
+    await db.update(
+      "HEROS",
+      hero.toMap(),
+      where: "id = ?",
+    );
+  }
+
+  // Delete
+  Future<void> deleteData(int id) async {
+    final db = await getDatabaseConnect();
+    await db.delete(
+      "HEROS",
+      where: "id = ?",
+      whereArgs: [id],
+    );
   }
 }
