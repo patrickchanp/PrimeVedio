@@ -40,7 +40,13 @@ class _MainPageState extends State<MainPage> {
   ];
 
   late int _currentIndex;
-  final pages = const [HomePage(), SearchPage(), SqfliteDemoPage()];
+  final pages = const [
+    HomePage(),
+    SearchPage(),
+    MyHomePage(
+      title: 'test',
+    )
+  ];
 
   @override
   void initState() {

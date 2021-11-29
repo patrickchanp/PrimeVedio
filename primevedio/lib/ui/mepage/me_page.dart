@@ -1,59 +1,110 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:primevedio/ui/mepage/widget_two.dart';
+import 'package:primevedio/sqflite/db_helper.dart';
+import 'package:primevedio/sqflite/employee.dart';
 
-final key = GlobalKey<_MyStatefulWidgetOneState>();
+import 'demo.dart';
 
-class GlobalKeyCommunication extends StatelessWidget {
-  const GlobalKeyCommunication({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  Employee employee = Employee("", "", "", "");
+
+  late String firstname;
+  late String lastname;
+  late String emailId;
+  late String mobileno;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Global Key Communication',
-          style: TextStyle(fontSize: 14.0),
+      key: scaffoldKey,
+      appBar: AppBar(title: Text('Saving Employee'), actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.view_list),
+          tooltip: 'Next choice',
+          onPressed: () {
+            navigateToEmployeeList();
+          },
+        ),
+      ]),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(labelText: 'First Name'),
+                validator: (val) => val!.isEmpty ? "Enter FirstName" : null,
+                onSaved: (val) => firstname = val!,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(labelText: 'Last Name'),
+                validator: (val) => val!.isEmpty ? 'Enter LastName' : null,
+                onSaved: (val) => lastname = val!,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(labelText: 'Mobile No'),
+                validator: (val) => val!.isEmpty ? 'Enter Mobile No' : null,
+                onSaved: (val) => mobileno = val!,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(labelText: 'Email Id'),
+                validator: (val) => val!.isEmpty ? 'Enter Email Id' : null,
+                onSaved: (val) => emailId = val!,
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 10.0),
+                child: RaisedButton(
+                  onPressed: _submit,
+                  child: Text('Save Employee'),
+                ),
+              )
+            ],
+          ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          MyStatefulWidgetOne(key: key),
-          const MyStatefulWidgetTwo(),
-        ],
-      ),
-    );
-  }
-}
-
-class MyStatefulWidgetOne extends StatefulWidget {
-  const MyStatefulWidgetOne({Key? key}) : super(key: key);
-  @override
-  _MyStatefulWidgetOneState createState() => _MyStatefulWidgetOneState();
-}
-
-class _MyStatefulWidgetOneState extends State<MyStatefulWidgetOne> {
-  String _message = "hhhhhhh world!";
-  String get message => _message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 20.0,
-          ),
-          Text('Widget one message: ' + _message)
-        ],
-      ),
     );
   }
 
-  void updateMessage(String msg) {
-    setState(() {
-      _message = msg;
-      print('1111$_message');
-    });
+  void _submit() {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+    } else {
+      return;
+    }
+    var employee = Employee(firstname, lastname, mobileno, emailId);
+    var dbHelper = DBHelper();
+    dbHelper.saveEmployee(employee);
+    _showSnackBar("Data saved successfully");
+  }
+
+  void _showSnackBar(String text) {
+    scaffoldKey.currentState!.showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  void navigateToEmployeeList() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MyEmployeeList()),
+    );
   }
 }

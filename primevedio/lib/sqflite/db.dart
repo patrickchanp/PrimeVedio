@@ -1,21 +1,20 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'constants.dart' as constants;
 
-//sqflite数据库操作工具类
+///sqflite数据库操作工具类
 class DBUtil {
   late Database db;
 
-  //sql助手插入 @tableName:表名  @parameters：参数map
+  ///sql助手插入 @tableName:表名  @paramters：参数map
   Future<int> insertByHelper(
-      String tableName, Map<String, Object> parameters) async {
-    return await db.insert(tableName, parameters);
+      String tableName, Map<String, Object> paramters) async {
+    return await db.insert(tableName, paramters);
   }
 
   ///sql原生插入
-  Future<int> insert(String sql, List parameters) async {
+  Future<int> insert(String sql, List paramters) async {
     //调用样例： dbUtil.insert('INSERT INTO Test(name, value) VALUES(?, ?)',['another name', 12345678]);
-    return await db.rawInsert(sql, parameters);
+    return await db.rawInsert(sql, paramters);
   }
 
   ///sql助手查找列表  @tableName:表名  @selects 查询的字段数组 @wheres 条件，如：'uid=? and fuid=?' @whereArgs 参数数组
@@ -44,9 +43,9 @@ class DBUtil {
   }
 
   ///sql原生修改
-  Future<int> update(String sql, List parameters) async {
+  Future<int> update(String sql, List paramters) async {
     //样例：dbUtil.update('UPDATE relation SET fuid = ?, type = ? WHERE uid = ?', [1,2,3]);
-    return await db.rawUpdate(sql, parameters);
+    return await db.rawUpdate(sql, paramters);
   }
 
   ///sql助手删除   刪除全部whereStr和whereArgs传null
@@ -95,7 +94,7 @@ class DBUtil {
   //打开DB
   open() async {
     String databasePath = await getDatabasesPath();
-    String path = join(databasePath, constants.DB_NAME);
+    String path = join(databasePath, 'searchHistory.db');
     print('数据库存储路径path:' + path);
     try {
       db = await openDatabase(path);

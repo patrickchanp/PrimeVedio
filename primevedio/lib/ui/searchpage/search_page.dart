@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:primevedio/sqflite/db.dart';
 import 'package:primevedio/ui/searchpage/search_result_page.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/my_icons.dart';
@@ -14,14 +15,10 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  late DBUtil dbUtil;
   String searchValue = '';
   final List<String> contents = [];
-  late List<String> hisArray = [
-    'testttttttttt',
-    '11112222222',
-    'test',
-    'winddd'
-  ];
+  late List hisArray = ['你好', '我的', 'testtttt'];
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -69,11 +66,15 @@ class _SearchPageState extends State<SearchPage> {
               });
             },
             onSubmitted: (value) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SearchResultPage(
-                  keys: value,
-                );
-              }));
+              value != ''
+                  ? Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                      return SearchResultPage(
+                        keys: value,
+                      );
+                    }))
+                  : '';
+              _insertData();
             },
             controller: _controller,
           ),
@@ -115,7 +116,11 @@ class _SearchPageState extends State<SearchPage> {
               setState(() {
                 searchValue = hisArray[index];
               });
-              _controller.text = searchValue;
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SearchResultPage(
+                  keys: searchValue,
+                );
+              }));
             },
             child: Chip(
               shape: RoundedRectangleBorder(
@@ -167,5 +172,11 @@ class _SearchPageState extends State<SearchPage> {
             ],
           );
         });
+  }
+
+  void _insertData() async {
+    await dbUtil.open();
+    Map<String, dynamic> par = <String, dynamic>{};
+    par['word'] = _controller.text;
   }
 }

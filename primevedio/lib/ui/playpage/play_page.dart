@@ -70,7 +70,7 @@ class _PlayPageState extends State<PlayPage>
   @override
   void dispose() {
     _tabController.dispose();
-    _controller != null ? _controller!.dispose() : '';
+    _controller?.dispose();
     super.dispose();
   }
 
