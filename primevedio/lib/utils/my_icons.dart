@@ -14,4 +14,6 @@ class MyIcons {
       IconData(0xe610, fontFamily: 'custom', matchTextDirection: true);
   static const IconData clearIcon =
       IconData(0xe616, fontFamily: 'custom', matchTextDirection: true);
+  static const IconData closeIcon =
+      IconData(0xe61c, fontFamily: 'custom', matchTextDirection: true);
 }

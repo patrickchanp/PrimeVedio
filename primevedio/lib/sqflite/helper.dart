@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:core';
 import 'dart:io' as io;
 import 'package:path/path.dart';
 import 'package:primevedio/sqflite/search_history.dart';
@@ -16,7 +17,7 @@ class DBHelper {
 
   Future initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "searchValue.db");
+    String path = join(documentsDirectory.path, "searchValue1.db");
     var theDb = await openDatabase(path, version: 1, onCreate: _onCreate);
     return theDb;
   }
@@ -38,6 +39,11 @@ class DBHelper {
           );
         ''');
     });
+  }
+
+  void deleteSearchValue() async {
+    var dbClient = await db;
+    await dbClient.delete(''' searchValue''' '');
   }
 
   Future<List<SearchValue>> getSearchValues() async {
