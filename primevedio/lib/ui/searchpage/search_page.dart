@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:primevedio/sqflite/db.dart';
 import 'package:primevedio/sqflite/helper.dart';
 import 'package:primevedio/sqflite/search_history.dart';
 import 'package:primevedio/ui/searchpage/search_result_page.dart';
@@ -38,6 +37,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void dispose() {
     super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -59,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
           TextField(
             autofocus: true,
             decoration: InputDecoration(
-                suffixIcon: _controller.text.isNotEmpty
+                suffixIcon: _controller.text.trim().isNotEmpty
                     ? GestureDetector(
                         child: const Icon(
                           Icons.close,
@@ -73,7 +73,10 @@ class _SearchPageState extends State<SearchPage> {
                     : null,
                 filled: true,
                 fillColor: Colors.white,
-                border: InputBorder.none,
+                border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius:
+                        BorderRadius.circular(ScreenUtil().radius(5))),
                 hintText: '  请输入关键字搜索',
                 hintStyle: TextStyle(
                   color: UIData.hintColor,
@@ -86,7 +89,7 @@ class _SearchPageState extends State<SearchPage> {
               });
             },
             onSubmitted: (value) {
-              value != ''
+              value.trim() != ''
                   ? Navigator.push(context,
                       MaterialPageRoute(builder: (context) {
                       return SearchResultPage(
@@ -94,7 +97,7 @@ class _SearchPageState extends State<SearchPage> {
                       );
                     }))
                   : '';
-              _insertData();
+              value.trim() != '' ? _insertData() : '';
               _controller.text = '';
             },
             controller: _controller,

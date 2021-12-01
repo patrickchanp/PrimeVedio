@@ -17,8 +17,11 @@ class DBHelper {
 
   Future initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "searchValue1.db");
-    var theDb = await openDatabase(path, version: 1, onCreate: _onCreate);
+    String path = join(documentsDirectory.path, "data.db");
+    var theDb = await openDatabase(path, version: 2, onCreate: _onCreate,
+        onUpgrade: (db, oldVersion, newVerison) {
+      db.execute('');
+    });
     return theDb;
   }
 
@@ -43,12 +46,13 @@ class DBHelper {
 
   void deleteSearchValue() async {
     var dbClient = await db;
-    await dbClient.delete(''' searchValue''' '');
+    await dbClient.delete('searchValue');
   }
 
   Future<List<SearchValue>> getSearchValues() async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM searchValue');
+    List<Map> list = await dbClient.query('searchValue');
+    print('object:$list');
     List<SearchValue> searchValues = [];
     for (int i = 0; i < list.length; i++) {
       searchValues.add(SearchValue(list[i]["searchWord"]));

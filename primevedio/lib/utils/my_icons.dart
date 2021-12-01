@@ -16,4 +16,8 @@ class MyIcons {
       IconData(0xe616, fontFamily: 'custom', matchTextDirection: true);
   static const IconData closeIcon =
       IconData(0xe61c, fontFamily: 'custom', matchTextDirection: true);
+  static const IconData aboutUsIcon =
+      IconData(0xe61e, fontFamily: 'custom', matchTextDirection: true);
+  static const IconData licenseIcon =
+      IconData(0xe601, fontFamily: 'custom', matchTextDirection: true);
 }

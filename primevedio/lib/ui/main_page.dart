@@ -40,13 +40,7 @@ class _MainPageState extends State<MainPage> {
   ];
 
   late int _currentIndex;
-  final pages = const [
-    HomePage(),
-    SearchPage(),
-    MyHomePage(
-      title: 'test',
-    )
-  ];
+  final pages = const [HomePage(), SearchPage(), MyHomePage()];
 
   @override
   void initState() {

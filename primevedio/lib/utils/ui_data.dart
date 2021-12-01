@@ -18,10 +18,16 @@ class UIData {
   static double fontSize20 = ScreenUtil().setSp(20);
   static double fontSize26 = ScreenUtil().setSp(26);
   //宽度高度
+  static double spaceSizeHeight300 = ScreenUtil().setHeight(300);
   static double spaceSizeHeight228 = ScreenUtil().setHeight(228);
+  static double spaceSizeHeight210 = ScreenUtil().setHeight(210);
   static double spaceSizeHeight202 = ScreenUtil().setHeight(202);
   static double spaceSizeHeight104 = ScreenUtil().setHeight(104);
+  static double spaceSizeHeight184 = ScreenUtil().setHeight(184);
   static double spaceSizeHeight176 = ScreenUtil().setHeight(176);
+  static double spaceSizeHeight92 = ScreenUtil().setHeight(92);
+  static double spaceSizeHeight82 = ScreenUtil().setHeight(82);
+  static double spaceSizeHeight75 = ScreenUtil().setHeight(75);
   static double spaceSizeHeight18 = ScreenUtil().setHeight(18);
   static double spaceSizeHeight22 = ScreenUtil().setHeight(22);
   static double spaceSizeHeight30 = ScreenUtil().setHeight(30);
@@ -34,9 +40,12 @@ class UIData {
   static double spaceSizeWith66 = ScreenUtil().setWidth(66);
   static double spaceSizeWith4 = ScreenUtil().setWidth(4);
   static double spaceSizeWith10 = ScreenUtil().setWidth(10);
+  static double spaceSizeWith11 = ScreenUtil().setWidth(11);
   static double spaceSizeWith24 = ScreenUtil().setWidth(24);
   static double spaceSizeWith26 = ScreenUtil().setWidth(26);
   static double spaceSizeWith16 = ScreenUtil().setWidth(16);
+  static double spaceSizeWith82 = ScreenUtil().setWidth(82);
+  static double spaceSizeWith92 = ScreenUtil().setWidth(92);
   static double spaceSizeWith100 = ScreenUtil().setWidth(100);
   static double spaceSizeWith110 = ScreenUtil().setWidth(110);
   static double spaceSizeWith159 = ScreenUtil().setWidth(159);
