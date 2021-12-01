@@ -7,6 +7,6 @@ class SearchValue {
   SearchValue(this.searchWord);
 
   SearchValue.fromMap(Map map) {
-    searchWord = map[searchWord];
+    searchWord = map['searchWord'];
   }
 }

@@ -19,6 +19,10 @@ class _SearchPageState extends State<SearchPage> {
   late String searchValue;
   final TextEditingController _controller = TextEditingController();
   List<SearchValue> searchValues = [];
+  //用这个text做判断
+  get text {
+    return _controller.text.trim();
+  }
 
   void getDatabase() {
     DBHelper().getSearchValues().then((value) {
@@ -61,7 +65,7 @@ class _SearchPageState extends State<SearchPage> {
             decoration: InputDecoration(
                 contentPadding:
                     EdgeInsets.symmetric(vertical: UIData.spaceSizeHeight11),
-                suffixIcon: _controller.text.trim().isNotEmpty
+                suffixIcon: text.isNotEmpty
                     ? GestureDetector(
                         child: const Icon(
                           MyIcons.closeFillIcon,
@@ -92,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
               });
             },
             onSubmitted: (value) {
-              value.trim() != ''
+              text != ''
                   ? Navigator.push(context,
                       MaterialPageRoute(builder: (context) {
                       return SearchResultPage(
@@ -100,7 +104,7 @@ class _SearchPageState extends State<SearchPage> {
                       );
                     }))
                   : '';
-              value.trim() != '' ? _insertData() : '';
+              text != '' ? _insertData() : '';
               _controller.text = '';
             },
             controller: _controller,
@@ -198,9 +202,8 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _insertData() async {
-    var searchWord = SearchValue(searchValue);
-    var dbHelper = DBHelper();
-    dbHelper.saveSearchValue(searchWord);
+    var searchWord = SearchValue(searchValue.trim());
+    DBHelper().saveSearchValue(searchWord);
     getDatabase();
   }
 }

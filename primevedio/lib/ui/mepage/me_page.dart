@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: UIData.primaryColor,
-      body: Column(
+      body: ListView(
         children: [
           SizedBox(
             height: UIData.spaceSizeHeight313,
@@ -42,23 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: [
                   Stack(children: [
+                    //clippath加阴影
                     ClipPath(
                       clipper: BackgroundClipper(),
                       child: Container(
+                        color: UIData.primaryColor,
                         height: UIData.spaceSizeHeight210,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(ScreenUtil().radius(22)),
-                          // color: UIData.primaryColor,
-                          color: Colors.red,
-                          boxShadow: [
-                            BoxShadow(
-                                color: UIData.opacity25shadowColor,
-                                offset: Offset(0, UIData.spaceSizeHeight4),
-                                blurRadius: 30,
-                                spreadRadius: 0)
-                          ],
-                        ),
                         child: Padding(
                           padding:
                               EdgeInsets.only(top: UIData.spaceSizeHeight92),
@@ -99,10 +88,30 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     Positioned.fill(
-                      top: 110,
-                      child: _circleBorder1(),
+                      // top: 110,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Transform.translate(
+                            offset: Offset(0, -50), child: _circleBorder1()),
+                      ),
                     )
                   ]),
+                  SizedBox(
+                    height: UIData.spaceSizeHeight22,
+                  ),
+                  _buildItem(),
+                  SizedBox(
+                    height: UIData.spaceSizeHeight22,
+                  ),
+                  _buildItem(),
+                  SizedBox(
+                    height: UIData.spaceSizeHeight22,
+                  ),
+                  _buildItem(),
+                  SizedBox(
+                    height: UIData.spaceSizeHeight22,
+                  ),
+                  _buildItem(),
                   SizedBox(
                     height: UIData.spaceSizeHeight22,
                   ),
@@ -121,24 +130,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _circleBorder1() {
-    return Transform.translate(
-      offset: const Offset(0, -155),
-      child: Container(
-        width: UIData.spaceSizeHeight92,
-        height: UIData.spaceSizeWith92,
-        // margin: const EdgeInsets.all(16),
-        decoration: ShapeDecoration(
-          // color: Colors.red,
-          image: const DecorationImage(
-            image: NetworkImage(
-              'https://img.syt5.com/2020/0904/20200904085741407.jpg.1680.0.jpg',
-            ),
-            fit: BoxFit.cover,
+    return Container(
+      width: UIData.spaceSizeHeight92,
+      height: UIData.spaceSizeWith92,
+      // margin: const EdgeInsets.all(16),
+      decoration: ShapeDecoration(
+        // color: Colors.red,
+        image: const DecorationImage(
+          image: NetworkImage(
+            'https://img.syt5.com/2020/0904/20200904085741407.jpg.1680.0.jpg',
           ),
-          shape: CircleBorder(
-            side: BorderSide(
-                width: UIData.spaceSizeWith5, color: UIData.primaryColor),
-          ),
+          fit: BoxFit.cover,
+        ),
+        shape: CircleBorder(
+          side: BorderSide(
+              width: UIData.spaceSizeWith5, color: UIData.primaryColor),
         ),
       ),
     );
@@ -186,6 +192,7 @@ class BackgroundClipper extends CustomClipper<Path> {
     var path = Path();
     path.moveTo(size.width / 2, 0);
     path.lineTo(0, size.height * 0.1);
+    // path.arcTo(rect, startAngle, sweepAngle, forceMoveTo)
     path.lineTo(0, size.height);
     path.lineTo(size.width, size.height);
     path.lineTo(size.width, size.height * 0.1);

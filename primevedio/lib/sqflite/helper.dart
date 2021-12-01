@@ -52,12 +52,6 @@ class DBHelper {
   Future<List<SearchValue>> getSearchValues() async {
     var dbClient = await db;
     List<Map> list = await dbClient.query('searchValue');
-    print('object:$list');
-    List<SearchValue> searchValues = [];
-    for (int i = 0; i < list.length; i++) {
-      searchValues.add(SearchValue(list[i]["searchWord"]));
-    }
-    print(searchValues.length);
-    return searchValues;
+    return list.map((e) => SearchValue.fromMap(e)).toList();
   }
 }
