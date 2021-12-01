@@ -57,69 +57,36 @@ class _MyHomePageState extends State<MyHomePage> {
                               Padding(
                                 padding: EdgeInsets.only(
                                     left: UIData.spaceSizeWith24),
-                                child: Column(
-                                  children: [
-                                    const Icon(
-                                      MyIcons.watchedIcon,
-                                      color: Colors.white,
-                                      size: 44,
-                                    ),
-                                    CommonText.mePageText('我看过的')
-                                  ],
-                                ),
+                                child:
+                                    _buildMyInfo(MyIcons.watchedIcon, '我看过的'),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(
-                                    right: UIData.spaceSizeWith24),
-                                child: Column(
-                                  children: [
-                                    const Icon(
-                                      MyIcons.favoriteIcon,
-                                      color: Colors.white,
-                                      size: 44,
-                                    ),
-                                    CommonText.mePageText('我收藏的')
-                                  ],
-                                ),
-                              )
+                                  padding: EdgeInsets.only(
+                                      right: UIData.spaceSizeWith24),
+                                  child: _buildMyInfo(
+                                      MyIcons.favoriteIcon, '我收藏的'))
                             ],
                           ),
                         ),
                       ),
                     ),
                     Positioned.fill(
-                      // top: 110,
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: Transform.translate(
-                            offset: Offset(0, -50), child: _circleBorder1()),
+                            offset: const Offset(0, -50),
+                            child: _circleBorder1()),
                       ),
                     )
                   ]),
                   SizedBox(
                     height: UIData.spaceSizeHeight22,
                   ),
-                  _buildItem(),
+                  _buildItem(MyIcons.aboutUsIcon, '关于我们'),
                   SizedBox(
                     height: UIData.spaceSizeHeight22,
                   ),
-                  _buildItem(),
-                  SizedBox(
-                    height: UIData.spaceSizeHeight22,
-                  ),
-                  _buildItem(),
-                  SizedBox(
-                    height: UIData.spaceSizeHeight22,
-                  ),
-                  _buildItem(),
-                  SizedBox(
-                    height: UIData.spaceSizeHeight22,
-                  ),
-                  _buildItem(),
-                  SizedBox(
-                    height: UIData.spaceSizeHeight22,
-                  ),
-                  _buildItem(),
+                  _buildItem(MyIcons.licenseIcon, 'LICENSE'),
                 ],
               ),
             ),
@@ -133,9 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       width: UIData.spaceSizeHeight92,
       height: UIData.spaceSizeWith92,
-      // margin: const EdgeInsets.all(16),
       decoration: ShapeDecoration(
-        // color: Colors.red,
         image: const DecorationImage(
           image: NetworkImage(
             'https://img.syt5.com/2020/0904/20200904085741407.jpg.1680.0.jpg',
@@ -150,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildItem() {
+  Widget _buildItem(IconData iconData, String message) {
     return Container(
       height: UIData.spaceSizeHeight75,
       decoration: BoxDecoration(
@@ -170,20 +135,36 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: UIData.spaceSizeWith24,
             ),
-            const Icon(
-              MyIcons.aboutUsIcon,
+            Icon(
+              iconData,
               color: Colors.white,
               size: 24,
             ),
             SizedBox(
               width: UIData.spaceSizeWith10,
             ),
-            CommonText.mePageText('关于我们')
+            CommonText.mePageText(message)
           ],
         ),
       ),
     );
   }
+}
+
+Widget _buildMyInfo(IconData iconData, String text) {
+  return Column(
+    children: [
+      SizedBox(
+        height: UIData.spaceSizeHeight22,
+      ),
+      Icon(
+        iconData,
+        color: Colors.white,
+        size: 44,
+      ),
+      CommonText.mePageText(text)
+    ],
+  );
 }
 
 class BackgroundClipper extends CustomClipper<Path> {
