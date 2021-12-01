@@ -65,4 +65,20 @@ class CommonText {
       overflow: overflow,
     );
   }
+
+  //我的文本
+  static Widget mePageText(text,
+      {textAlign = TextAlign.left,
+      overflow = TextOverflow.ellipsis,
+      color = Colors.white}) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontSize: UIData.fontSize18,
+          fontWeight: FontWeight.normal,
+          color: color),
+      textAlign: textAlign,
+      overflow: overflow,
+    );
+  }
 }

@@ -59,11 +59,14 @@ class _SearchPageState extends State<SearchPage> {
           TextField(
             autofocus: true,
             decoration: InputDecoration(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: UIData.spaceSizeHeight11),
                 suffixIcon: _controller.text.trim().isNotEmpty
                     ? GestureDetector(
                         child: const Icon(
-                          Icons.close,
+                          MyIcons.closeFillIcon,
                           color: Colors.black,
+                          size: 20,
                         ),
                         onTap: () {
                           setState(() {
