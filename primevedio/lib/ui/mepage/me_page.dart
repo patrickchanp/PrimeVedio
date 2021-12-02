@@ -3,9 +3,12 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:primevedio/ui/mepage/path_clipper.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/my_icons.dart';
 import 'package:primevedio/utils/ui_data.dart';
+
+import 'about_us_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -43,8 +46,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Stack(children: [
                     //clippath加阴影
-                    ClipPath(
+                    ClipShadowPath(
                       clipper: BackgroundClipper(),
+                      shadow: BoxShadow(
+                          color: UIData.opacity25shadowColor,
+                          offset: Offset(0, UIData.spaceSizeHeight4),
+                          blurRadius: 30,
+                          spreadRadius: 0),
                       child: Container(
                         color: UIData.primaryColor,
                         height: UIData.spaceSizeHeight210,
@@ -57,14 +65,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               Padding(
                                 padding: EdgeInsets.only(
                                     left: UIData.spaceSizeWith24),
-                                child:
-                                    _buildMyInfo(MyIcons.watchedIcon, '我看过的'),
+                                child: _buildMyInfo(
+                                    MyIcons.watchedIcon, '我看过的', () {}),
                               ),
                               Padding(
                                   padding: EdgeInsets.only(
                                       right: UIData.spaceSizeWith24),
                                   child: _buildMyInfo(
-                                      MyIcons.favoriteIcon, '我收藏的'))
+                                      MyIcons.favoriteIcon, '我收藏的', () {}))
                             ],
                           ),
                         ),
@@ -82,11 +90,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(
                     height: UIData.spaceSizeHeight22,
                   ),
-                  _buildItem(MyIcons.aboutUsIcon, '关于我们'),
+                  _buildItem(MyIcons.aboutUsIcon, '关于我们', () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return const AboutUsPage();
+                    }));
+                  }),
                   SizedBox(
                     height: UIData.spaceSizeHeight22,
                   ),
-                  _buildItem(MyIcons.licenseIcon, 'LICENSE'),
+                  _buildItem(MyIcons.licenseIcon, 'LICENSE', () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return const LicensePage(
+                        applicationName: '',
+                        applicationIcon: FlutterLogo(
+                          size: 55,
+                        ),
+                      );
+                    }));
+                  }),
                 ],
               ),
             ),
@@ -115,7 +138,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildItem(IconData iconData, String message) {
+  Widget _buildItem(
+      IconData iconData, String message, GestureTapCallback onTap) {
     return Container(
       height: UIData.spaceSizeHeight75,
       decoration: BoxDecoration(
@@ -146,42 +170,27 @@ class _MyHomePageState extends State<MyHomePage> {
             CommonText.mePageText(message)
           ],
         ),
+        onTap: onTap,
       ),
     );
   }
 }
 
-Widget _buildMyInfo(IconData iconData, String text) {
-  return Column(
-    children: [
-      SizedBox(
-        height: UIData.spaceSizeHeight22,
-      ),
-      Icon(
-        iconData,
-        color: Colors.white,
-        size: 44,
-      ),
-      CommonText.mePageText(text)
-    ],
+Widget _buildMyInfo(IconData iconData, String text, GestureTapCallback onTap) {
+  return GestureDetector(
+    child: Column(
+      children: [
+        SizedBox(
+          height: UIData.spaceSizeHeight22,
+        ),
+        Icon(
+          iconData,
+          color: Colors.white,
+          size: 44,
+        ),
+        CommonText.mePageText(text)
+      ],
+    ),
+    onTap: onTap,
   );
-}
-
-class BackgroundClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.moveTo(size.width / 2, 0);
-    path.lineTo(0, size.height * 0.1);
-    // path.arcTo(rect, startAngle, sweepAngle, forceMoveTo)
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, size.height * 0.1);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
-  }
 }

@@ -14,9 +14,11 @@ class UIData {
   static const opacity25shadowColor = Color(0x40d2eaf2);
 
   //字号
+  static double fontSize14 = ScreenUtil().setSp(14);
   static double fontSize16 = ScreenUtil().setSp(16);
   static double fontSize18 = ScreenUtil().setSp(18);
   static double fontSize20 = ScreenUtil().setSp(20);
+  static double fontSize24 = ScreenUtil().setSp(24);
   static double fontSize26 = ScreenUtil().setSp(26);
   //宽度高度
   static double spaceSizeHeight313 = ScreenUtil().setHeight(313);

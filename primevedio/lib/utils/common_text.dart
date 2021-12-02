@@ -66,6 +66,38 @@ class CommonText {
     );
   }
 
+  //关于文本
+  static Widget aboutText(text,
+      {textAlign = TextAlign.center,
+      overflow = TextOverflow.ellipsis,
+      color = Colors.white}) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontSize: UIData.fontSize24,
+          fontWeight: FontWeight.normal,
+          color: color),
+      textAlign: textAlign,
+      overflow: overflow,
+    );
+  }
+
+  //文本
+  static Widget usText(text,
+      {textAlign = TextAlign.center,
+      overflow = TextOverflow.ellipsis,
+      color = Colors.white}) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontSize: UIData.fontSize14,
+          fontWeight: FontWeight.normal,
+          color: color),
+      textAlign: textAlign,
+      overflow: overflow,
+    );
+  }
+
   //我的文本
   static Widget mePageText(text,
       {textAlign = TextAlign.left,
