@@ -202,7 +202,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _insertData() async {
-    var searchWord = SearchValue(searchValue.trim());
+    var searchWord = SearchValue(text);
     DBHelper().saveSearchValue(searchWord);
     getDatabase();
   }

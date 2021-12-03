@@ -375,7 +375,7 @@ class VideoDetailContent extends Object {
   );
 
   factory VideoDetailContent.fromJson(Map<String, dynamic> srcJson) =>
-      _$VideoDetailFromJson(srcJson);
+      _$VideoDetailContentFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$VideoDetailToJson(this);
+  Map<String, dynamic> toJson() => _$VideoDetailContentToJson(this);
 }

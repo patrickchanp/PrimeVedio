@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import 'package:primevedio/ui/playpage/play_page.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/log_util.dart';
 import 'package:primevedio/utils/ui_data.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SearchResultPage extends StatefulWidget {
   final String keys;
@@ -19,17 +21,67 @@ class SearchResultPage extends StatefulWidget {
 }
 
 class _SearchResultPageState extends State<SearchResultPage> {
+  //每页显示的数量
+  static const int pageSize = 10;
+  //当前页数
+  int page = 1;
+  //是否加载过数据
+  late bool loaded;
+  //是否允许上拉
+  late bool _enablePullUp = true;
+  //数据
   List<SearchResult>? getSearchResultList = [];
-  _getSearchResult() async {
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    _loadData(true);
+  }
+
+  void _onLoading() async {
+    _loadData(false);
+  }
+
+  void _initData() async {
+    _loadData(true);
+  }
+
+  _loadData(final bool onRefresh) async {
+    int pageNum;
+    if (onRefresh) {
+      pageNum = 1;
+    } else {
+      pageNum = page + 1;
+    }
     Map<String, Object> params = {
       'ac': 'detail',
       'wd': widget.keys,
+      // 'pg': 1,
     };
     HttpUtil.request(HttpOptions.baseUrl, HttpUtil.GET, params: params)
         .then((value) {
       SearchResultModel model = SearchResultModel.fromJson(value);
+      //总数小于等于
+      if (model.pagecount <= model.total) {
+        _enablePullUp = false;
+      }
+      if (model.total > 0 && model.list.isNotEmpty) {
+        page = pageNum;
+        if (onRefresh) {
+          loaded = true;
+          getSearchResultList!.clear();
+          getSearchResultList = model.list;
+          _refreshController.refreshCompleted();
+        } else {
+          getSearchResultList!.add(value);
+          if (mounted) {
+            setState(() {});
+          }
+          _refreshController.loadComplete();
+        }
+      }
       setState(() {
-        getSearchResultList = model.list;
+        // getSearchResultList = model.list;
       });
     });
   }
@@ -37,7 +89,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
   @override
   void initState() {
     super.initState();
-    _getSearchResult();
+    _initData();
   }
 
   @override
@@ -61,16 +113,23 @@ class _SearchResultPageState extends State<SearchResultPage> {
     return getSearchResultList!.isNotEmpty
         ? Padding(
             padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith24),
-            child: GridView.builder(
-              shrinkWrap: false,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.65,
-                mainAxisSpacing: UIData.spaceSizeHeight22,
-                crossAxisSpacing: UIData.spaceSizeWith24,
+            child: SmartRefresher(
+              controller: _refreshController,
+              enablePullUp: _enablePullUp,
+              enablePullDown: true,
+              onLoading: _onLoading, //加载下一页回调
+              onRefresh: _onRefresh, //刷新回调
+              child: GridView.builder(
+                shrinkWrap: false,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.65,
+                  mainAxisSpacing: UIData.spaceSizeHeight22,
+                  crossAxisSpacing: UIData.spaceSizeWith24,
+                ),
+                itemCount: getSearchResultList!.length,
+                itemBuilder: (context, int index) => _buildItem(index),
               ),
-              itemCount: getSearchResultList!.length,
-              itemBuilder: (context, int index) => _buildItem(index),
             ),
           )
         : Container(

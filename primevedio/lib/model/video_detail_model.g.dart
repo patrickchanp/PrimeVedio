@@ -30,7 +30,7 @@ Map<String, dynamic> _$VideoDetailModelToJson(VideoDetailModel instance) =>
       'list': instance.list,
     };
 
-VideoDetailContent _$VideoDetailFromJson(Map<String, dynamic> json) =>
+VideoDetailContent _$VideoDetailContentFromJson(Map<String, dynamic> json) =>
     VideoDetailContent(
       json['vod_id'] as int,
       json['type_id'] as int,
@@ -116,7 +116,7 @@ VideoDetailContent _$VideoDetailFromJson(Map<String, dynamic> json) =>
       json['type_name'] as String,
     );
 
-Map<String, dynamic> _$VideoDetailToJson(VideoDetailContent instance) =>
+Map<String, dynamic> _$VideoDetailContentToJson(VideoDetailContent instance) =>
     <String, dynamic>{
       'vod_id': instance.vodId,
       'type_id': instance.typeId,

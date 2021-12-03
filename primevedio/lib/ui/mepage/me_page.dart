@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:primevedio/ui/mepage/licence_page.dart';
 import 'package:primevedio/ui/mepage/path_clipper.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/my_icons.dart';
@@ -25,96 +26,111 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: UIData.primaryColor,
-      body: ListView(
-        children: [
-          SizedBox(
-            height: UIData.spaceSizeHeight313,
-            child: ImageFiltered(
-                imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                child: Image.network(
-                  'https://img.syt5.com/2020/0904/20200904085741407.jpg.1680.0.jpg',
-                  fit: BoxFit.cover,
-                )),
-          ),
-          Transform.translate(
-            offset: const Offset(0, -85),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith11),
-              child: Column(
-                children: [
-                  Stack(children: [
-                    //clippath加阴影
-                    ClipShadowPath(
-                      clipper: BackgroundClipper(),
-                      shadow: BoxShadow(
-                          color: UIData.opacity25shadowColor,
-                          offset: Offset(0, UIData.spaceSizeHeight4),
-                          blurRadius: 30,
-                          spreadRadius: 0),
-                      child: Container(
-                        color: UIData.primaryColor,
-                        height: UIData.spaceSizeHeight210,
-                        child: Padding(
-                          padding:
-                              EdgeInsets.only(top: UIData.spaceSizeHeight92),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: UIData.spaceSizeWith24),
-                                child: _buildMyInfo(
-                                    MyIcons.watchedIcon, '我看过的', () {}),
-                              ),
-                              Padding(
+    return MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: Container(
+        color: UIData.primaryColor,
+        child: ListView(
+          children: [
+            SizedBox(
+              height: UIData.spaceSizeHeight313,
+              child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                  child: Image.network(
+                    'https://img.syt5.com/2020/0904/20200904085741407.jpg.1680.0.jpg',
+                    fit: BoxFit.cover,
+                  )),
+            ),
+            Transform.translate(
+              offset: const Offset(0, -85),
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: UIData.spaceSizeWith11),
+                child: Column(
+                  children: [
+                    Stack(children: [
+                      //clippath加阴影
+                      ClipShadowPath(
+                        clipper: BackgroundClipper(),
+                        shadow: BoxShadow(
+                            color: UIData.opacity25shadowColor,
+                            offset: Offset(0, UIData.spaceSizeHeight4),
+                            blurRadius: UIData.spaceSizeWith30,
+                            spreadRadius: 0),
+                        child: Container(
+                          color: UIData.primaryColor,
+                          height: UIData.spaceSizeHeight210,
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(top: UIData.spaceSizeHeight92),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
                                   padding: EdgeInsets.only(
-                                      right: UIData.spaceSizeWith24),
+                                      left: UIData.spaceSizeWith24),
                                   child: _buildMyInfo(
-                                      MyIcons.favoriteIcon, '我收藏的', () {}))
-                            ],
+                                      MyIcons.watchedIcon, '我看过的', () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                      return const AboutUsPage();
+                                    }));
+                                  }),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        right: UIData.spaceSizeWith24),
+                                    child: _buildMyInfo(
+                                        MyIcons.favoriteIcon, '我收藏的', () {}))
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Transform.translate(
-                            offset: const Offset(0, -50),
-                            child: _circleBorder1()),
-                      ),
-                    )
-                  ]),
-                  SizedBox(
-                    height: UIData.spaceSizeHeight22,
-                  ),
-                  _buildItem(MyIcons.aboutUsIcon, '关于我们', () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return const AboutUsPage();
-                    }));
-                  }),
-                  SizedBox(
-                    height: UIData.spaceSizeHeight22,
-                  ),
-                  _buildItem(MyIcons.licenseIcon, 'LICENSE', () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return const LicensePage(
-                        applicationName: '',
-                        applicationIcon: FlutterLogo(
-                          size: 55,
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Transform.translate(
+                              offset: const Offset(0, -50),
+                              child: _circleBorder1()),
                         ),
-                      );
-                    }));
-                  }),
-                ],
+                      )
+                    ]),
+                    SizedBox(
+                      height: UIData.spaceSizeHeight22,
+                    ),
+                    _buildItem(MyIcons.aboutUsIcon, '关于我们', () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return const AboutUsPage();
+                      }));
+                    }),
+                    SizedBox(
+                      height: UIData.spaceSizeHeight22,
+                    ),
+                    _buildItem(MyIcons.licenseIcon, 'LICENSE', () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return Theme(
+                            data: ThemeData(
+                                appBarTheme: const AppBarTheme(
+                              color: Colors.black,
+                            )),
+                            child: const LicensePage(
+                              applicationName: '',
+                              applicationIcon: FlutterLogo(
+                                size: 45,
+                              ),
+                            ));
+                      }));
+                    }),
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
