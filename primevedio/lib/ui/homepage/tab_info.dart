@@ -104,12 +104,13 @@ class _TabInfoState extends State<TabInfo> {
         children: [
           SizedBox(
               height: UIData.spaceSizeHeight176,
-              child: _viewPage(typeId: widget.typeId)),
+              child: getSwiperList!.isNotEmpty
+                  ? _viewPage(typeId: widget.typeId)
+                  : Center(child: CommonText.mainTitle('暂无资源，敬请期待'))),
           Padding(
             padding: EdgeInsets.symmetric(vertical: UIData.spaceSizeWith16),
             child: CommonText.normalText('最新发布'),
           ),
-          // GridViewPage(typeId: widget.typeId),
           CommonGridViewPage(
               url: getSwiperList!.map((e) => e.vodPic).toList(),
               text: getSwiperList!.map((e) => e.vodName).toList(),

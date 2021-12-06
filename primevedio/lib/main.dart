@@ -27,6 +27,8 @@ class MyApp extends StatelessWidget {
         completeText: '刷新完成',
       ),
       footerBuilder: () => const ClassicFooter(
+        idleText: '上拉加载',
+        canLoadingText: '松手加载',
         loadingText: '正在加载',
         loadingIcon: Icon(
           MyIcons.refreshIcon,
