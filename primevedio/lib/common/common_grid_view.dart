@@ -2,24 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:primevedio/model/swiper_list.dart';
 import 'package:primevedio/ui/playpage/play_page.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
 
 class CommonGridViewPage extends StatefulWidget {
-  final int count;
-  final List<String> url;
-  final List<String> text;
-  final List<int> ids;
   final int? typeId;
+  final List<PageList>? getSwiperList;
 
-  const CommonGridViewPage(
-      {Key? key,
-      required this.url,
-      required this.text,
-      required this.typeId,
-      required this.ids,
-      required this.count})
+  const CommonGridViewPage({Key? key, this.typeId, this.getSwiperList})
       : super(key: key);
 
   @override
@@ -38,7 +30,7 @@ class _CommonGridViewPageState extends State<CommonGridViewPage> {
         mainAxisSpacing: UIData.spaceSizeHeight22,
         crossAxisSpacing: UIData.spaceSizeWith24,
       ),
-      itemCount: widget.count,
+      itemCount: widget.getSwiperList!.length,
       itemBuilder: (context, int index) => _buildGridItem(index),
     );
   }
@@ -52,7 +44,8 @@ class _CommonGridViewPageState extends State<CommonGridViewPage> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(ScreenUtil().radius(12)),
               image: DecorationImage(
-                  image: CachedNetworkImageProvider(widget.url[index]),
+                  image: CachedNetworkImageProvider(
+                      widget.getSwiperList![index].vodPic),
                   fit: BoxFit.cover),
             ),
             height: UIData.spaceSizeHeight202,
@@ -60,14 +53,14 @@ class _CommonGridViewPageState extends State<CommonGridViewPage> {
           Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(top: 12.0),
-            child: CommonText.titleText(widget.text[index]),
+            child: CommonText.titleText(widget.getSwiperList![index].vodName),
           )
         ],
       ),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return PlayPage(
-            ids: widget.ids[index],
+            ids: widget.getSwiperList![index].vodId,
             typeId: widget.typeId ?? 0,
           );
         }));

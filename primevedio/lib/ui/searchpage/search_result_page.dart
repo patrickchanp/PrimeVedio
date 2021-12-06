@@ -4,6 +4,7 @@ import 'package:primevedio/common/common_grid_view.dart';
 import 'package:primevedio/http/http_options.dart';
 import 'package:primevedio/http/http_util.dart';
 import 'package:primevedio/model/search_result_model.dart';
+import 'package:primevedio/model/swiper_list.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -23,7 +24,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
   late int typeId = 0;
 
   //数据
-  List<SearchResult>? getSearchResultList = [];
+  List<PageList>? getSearchResultList = [];
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -53,7 +54,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
     };
     HttpUtil.request(HttpOptions.baseUrl, HttpUtil.GET, params: params)
         .then((value) {
-      SearchResultModel model = SearchResultModel.fromJson(value);
+      PageViewListModel model = PageViewListModel.fromJson(value);
       //解决异步场景
       if (!mounted) {
         return;
@@ -112,12 +113,9 @@ class _SearchResultPageState extends State<SearchResultPage> {
                 onRefresh: _onRefresh,
                 //刷新回调
                 child: CommonGridViewPage(
-                  url: getSearchResultList!.map((e) => e.vodPic).toList(),
+                  getSwiperList: getSearchResultList,
                   typeId: int.tryParse(
                       getSearchResultList!.map((e) => e.typeId).toString()),
-                  count: getSearchResultList!.length,
-                  text: getSearchResultList!.map((e) => e.vodName).toList(),
-                  ids: getSearchResultList!.map((e) => e.vodId).toList(),
                 )),
           )
         : Container(
