@@ -10,8 +10,6 @@ SearchResultModel _$SearchResultModelFromJson(Map<String, dynamic> json) =>
     SearchResultModel(
       json['code'] as int,
       json['msg'] as String,
-      json['page'] as int,
-      json['pagecount'] as int,
       json['limit'] as String,
       json['total'] as int,
       (json['list'] as List<dynamic>)
@@ -23,8 +21,6 @@ Map<String, dynamic> _$SearchResultModelToJson(SearchResultModel instance) =>
     <String, dynamic>{
       'code': instance.code,
       'msg': instance.msg,
-      'page': instance.page,
-      'pagecount': instance.pagecount,
       'limit': instance.limit,
       'total': instance.total,
       'list': instance.list,

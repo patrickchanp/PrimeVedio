@@ -10,7 +10,6 @@ PageViewListModel _$PageViewListModelFromJson(Map<String, dynamic> json) =>
     PageViewListModel(
       json['code'] as int,
       json['msg'] as String,
-      json['page'] as int,
       json['pagecount'] as int,
       json['limit'] as String,
       json['total'] as int,
@@ -23,7 +22,6 @@ Map<String, dynamic> _$PageViewListModelToJson(PageViewListModel instance) =>
     <String, dynamic>{
       'code': instance.code,
       'msg': instance.msg,
-      'page': instance.page,
       'pagecount': instance.pagecount,
       'limit': instance.limit,
       'total': instance.total,

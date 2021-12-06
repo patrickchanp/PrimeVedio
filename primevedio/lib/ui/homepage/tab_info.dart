@@ -1,17 +1,15 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:primevedio/common/common_grid_view.dart';
 import 'package:primevedio/http/http_options.dart';
 import 'package:primevedio/http/http_util.dart';
 import 'package:primevedio/model/swiper_list.dart';
 import 'package:primevedio/ui/playpage/play_page.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
-
-import 'grid_view_page.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class TabInfo extends StatefulWidget {
   final int typeId;
@@ -23,55 +21,57 @@ class TabInfo extends StatefulWidget {
 }
 
 class _TabInfoState extends State<TabInfo> {
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      padding: EdgeInsets.only(
-          left: UIData.spaceSizeWith24,
-          right: UIData.spaceSizeWith24,
-          top: UIData.spaceSizeWith24),
-      children: [
-        SizedBox(
-            height: UIData.spaceSizeHeight176,
-            child: ViewPage(typeId: widget.typeId)),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: UIData.spaceSizeWith16),
-          child: CommonText.normalText('最新发布'),
-        ),
-        GridViewPage(typeId: widget.typeId),
-      ],
-    );
+  int ids = 0;
+  int page = 1;
+
+  //数据
+  List<PageViewListModel>? getSearchResultList = [];
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    _loadData(true);
   }
-}
 
-class ViewPage extends StatefulWidget {
-  final int typeId;
-  const ViewPage({Key? key, required this.typeId}) : super(key: key);
+  void _onLoading() async {
+    _loadData(false);
+  }
 
-  @override
-  State<StatefulWidget> createState() => _ViewPageState();
-}
-
-class _ViewPageState extends State<ViewPage> {
-  var imgList = [];
-  // int currentIndex = 0;
-  // late PageController _pageController;
-  // late Timer _timer;
+  void _initData() async {
+    _loadData(true);
+  }
 
   List<PageList>? getSwiperList = [];
 
-  _getSwiperList() async {
+  _loadData(final bool onRefresh) async {
+    if (onRefresh) {
+      page = 1;
+    } else {
+      page += 1;
+    }
     Map<String, Object> params = {
       'ac': 'detail',
       't': widget.typeId,
+      'pg': page,
     };
     HttpUtil.request(HttpOptions.baseUrl, HttpUtil.GET, params: params)
         .then((value) {
-      PageViewListModel pageViewListModel = PageViewListModel.fromJson(value);
+      PageViewListModel model = PageViewListModel.fromJson(value);
+      if (!mounted) {
+        return;
+      }
       setState(() {
-        getSwiperList = pageViewListModel.list;
-        imgList = getSwiperList!.map((e) => e.vodPic).toList();
+        if (model.total > 0 && model.list.isNotEmpty) {
+          if (onRefresh) {
+            getSwiperList!.clear();
+            getSwiperList = model.list;
+            _refreshController.refreshCompleted();
+          } else {
+            getSwiperList!.addAll(model.list);
+            _refreshController.loadComplete();
+          }
+          if (getSwiperList!.length >= model.total) {}
+        }
       });
     });
   }
@@ -79,30 +79,51 @@ class _ViewPageState extends State<ViewPage> {
   @override
   void initState() {
     super.initState();
-    _getSwiperList();
-    // _timer;
-    // _pageController = PageController(initialPage: currentIndex);
-    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-    //   startTimer();
-    // });
+    _initData();
   }
 
   @override
   void dispose() {
     super.dispose();
-    // _timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
+    return SmartRefresher(
+      controller: _refreshController,
+      enablePullDown: true,
+      enablePullUp: true,
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      child: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.only(
+            left: UIData.spaceSizeWith24,
+            right: UIData.spaceSizeWith24,
+            top: UIData.spaceSizeWith24),
+        children: [
+          SizedBox(
+              height: UIData.spaceSizeHeight176,
+              child: _viewPage(typeId: widget.typeId)),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: UIData.spaceSizeWith16),
+            child: CommonText.normalText('最新发布'),
+          ),
+          // GridViewPage(typeId: widget.typeId),
+          CommonGridViewPage(
+              url: getSwiperList!.map((e) => e.vodPic).toList(),
+              text: getSwiperList!.map((e) => e.vodName).toList(),
+              typeId: widget.typeId,
+              ids: getSwiperList!.map((e) => e.vodId).toList(),
+              count: getSwiperList!.length)
+        ],
+      ),
+    );
+  }
+
+  Widget _viewPage({required int typeId}) {
     return PageView.builder(
-      // controller: _pageController,
-      onPageChanged: (int index) {
-        setState(() {
-          // currentIndex = index;
-        });
-      },
-      itemCount: imgList.length,
+      itemCount: getSwiperList!.length,
       itemBuilder: (context, index) => _buildPageItem(index),
     );
   }
@@ -114,7 +135,7 @@ class _ViewPageState extends State<ViewPage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(ScreenUtil().radius(12)),
           image: DecorationImage(
-              image: CachedNetworkImageProvider(imgList[index]),
+              image: CachedNetworkImageProvider(getSwiperList![index].vodPic),
               fit: BoxFit.fill),
         ),
       ),
@@ -128,13 +149,4 @@ class _ViewPageState extends State<ViewPage> {
       },
     );
   }
-  //
-  // void startTimer() {
-  //   _timer = Timer.periodic(const Duration(milliseconds: 3000), (value) {
-  //     currentIndex++;
-  //     _pageController.animateToPage(currentIndex,
-  //         duration: Duration(milliseconds: 3000), curve: Curves.ease);
-  //     setState(() {});
-  //   });
-  // }
 }

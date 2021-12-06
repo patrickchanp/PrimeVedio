@@ -23,6 +23,7 @@ class VideoDetail extends StatefulWidget {
 }
 
 class _VideoDetailState extends State<VideoDetail> {
+  bool isReverse = false;
   VideoDetailContent? getVideoDetail;
   List episode = [];
   late int _currentIndex;
@@ -74,9 +75,16 @@ class _VideoDetailState extends State<VideoDetail> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CommonText.normalText('选集', color: Colors.white),
-                      const Icon(
-                        MyIcons.sortIcon,
-                        color: Colors.white,
+                      GestureDetector(
+                        child: const Icon(
+                          MyIcons.sortIcon,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            isReverse = !isReverse;
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -86,6 +94,7 @@ class _VideoDetailState extends State<VideoDetail> {
                       height: UIData.spaceSizeHeight40,
                       child: getVideoDetail!.vodPlayUrl.isNotEmpty
                           ? ListView.builder(
+                              reverse: isReverse,
                               itemCount: episode.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {

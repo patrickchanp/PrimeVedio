@@ -43,7 +43,8 @@ class _AboutUsPageState extends State<AboutUsPage> {
                 height: UIData.spaceSizeHeight75,
               ),
               CommonText.aboutText(_packageInfo.appName),
-              CommonText.aboutText(_packageInfo.version),
+              CommonText.aboutText(
+                  ' ${_packageInfo.version} + ${_packageInfo.buildNumber}'),
               SizedBox(
                 height: UIData.spaceSizeHeight54,
               ),

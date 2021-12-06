@@ -10,12 +10,6 @@ class SearchResultModel extends Object {
   @JsonKey(name: 'msg')
   String msg;
 
-  @JsonKey(name: 'page')
-  int page;
-
-  @JsonKey(name: 'pagecount')
-  int pagecount;
-
   @JsonKey(name: 'limit')
   String limit;
 
@@ -28,8 +22,6 @@ class SearchResultModel extends Object {
   SearchResultModel(
     this.code,
     this.msg,
-    this.page,
-    this.pagecount,
     this.limit,
     this.total,
     this.list,

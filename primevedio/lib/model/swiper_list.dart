@@ -10,9 +10,6 @@ class PageViewListModel extends Object {
   @JsonKey(name: 'msg')
   String msg;
 
-  @JsonKey(name: 'page')
-  int page;
-
   @JsonKey(name: 'pagecount')
   int pagecount;
 
@@ -28,7 +25,6 @@ class PageViewListModel extends Object {
   PageViewListModel(
     this.code,
     this.msg,
-    this.page,
     this.pagecount,
     this.limit,
     this.total,

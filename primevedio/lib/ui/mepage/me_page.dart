@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:primevedio/ui/mepage/licence_page.dart';
 import 'package:primevedio/ui/mepage/path_clipper.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/my_icons.dart';
