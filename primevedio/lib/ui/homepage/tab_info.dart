@@ -23,7 +23,6 @@ class TabInfo extends StatefulWidget {
 class _TabInfoState extends State<TabInfo> {
   int ids = 0;
   int page = 1;
-
   //数据
   List<PageViewListModel>? getSearchResultList = [];
   final RefreshController _refreshController =
@@ -90,31 +89,30 @@ class _TabInfoState extends State<TabInfo> {
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-      controller: _refreshController,
-      enablePullDown: true,
-      enablePullUp: true,
-      onRefresh: _onRefresh,
-      onLoading: _onLoading,
-      child: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.only(
-            left: UIData.spaceSizeWith24,
-            right: UIData.spaceSizeWith24,
-            top: UIData.spaceSizeWith24),
-        children: [
-          SizedBox(
-              height: UIData.spaceSizeHeight176,
-              child: _viewPage(typeId: widget.typeId)),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: UIData.spaceSizeWith16),
-            child: CommonText.normalText('最新发布'),
-          ),
-          CommonGridViewPage(
-            getSwiperList: getSwiperList,
-          )
-        ],
-      ),
-    );
+        controller: _refreshController,
+        enablePullDown: true,
+        enablePullUp: true,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.only(
+              left: UIData.spaceSizeWith24,
+              right: UIData.spaceSizeWith24,
+              top: UIData.spaceSizeWith24),
+          children: [
+            SizedBox(
+                height: UIData.spaceSizeHeight176,
+                child: _viewPage(typeId: widget.typeId)),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: UIData.spaceSizeWith16),
+              child: CommonText.normalText('最新发布'),
+            ),
+            CommonGridViewPage(
+              getSwiperList: getSwiperList,
+            )
+          ],
+        ));
   }
 
   Widget _viewPage({required int typeId}) {

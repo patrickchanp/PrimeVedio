@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:primevedio/common/common_grid_view.dart';
 import 'package:primevedio/http/http_options.dart';
 import 'package:primevedio/http/http_util.dart';
-import 'package:primevedio/model/search_result_model.dart';
 import 'package:primevedio/model/swiper_list.dart';
 import 'package:primevedio/utils/common_text.dart';
 import 'package:primevedio/utils/ui_data.dart';
@@ -64,8 +63,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
           if (onRefresh) {
             getSearchResultList!.clear();
             getSearchResultList = model.list;
-            // typeId =
-            //     getSearchResultList!.map((e) => e.typeId).toString() as int;
             _refreshController.refreshCompleted();
           } else {
             getSearchResultList!.addAll(model.list);
