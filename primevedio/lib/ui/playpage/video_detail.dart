@@ -94,7 +94,6 @@ class _VideoDetailState extends State<VideoDetail> {
                       height: UIData.spaceSizeHeight40,
                       child: getVideoDetail!.vodPlayUrl.isNotEmpty
                           ? ListView.builder(
-                              reverse: isReverse,
                               itemCount: episode.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
@@ -111,7 +110,9 @@ class _VideoDetailState extends State<VideoDetail> {
                                             horizontal: UIData.spaceSizeWith24),
                                         child: CommonText.normalText(
                                           episode.isNotEmpty
-                                              ? '${episode[index][0]}'
+                                              ? isReverse
+                                                  ? '${episode[index][0]}'
+                                                  : '${episode.reversed.toList()[index][0]}'
                                               : '',
                                           color: _currentIndex == index
                                               ? UIData.primarySwatch
